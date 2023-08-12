@@ -47,6 +47,7 @@ export async function updateUser({
         bio,
         image,
         onboarded: true,
+        termsAccepted: true,
         gender,
       },
       {

@@ -70,6 +70,7 @@ const AccountProfile = ({ user, btnTitle }: HeadingProps) => {
       username: user?.username || '',
       bio: user?.bio || '',
       gender: user?.gender || '',
+      termsAccepted: false,
     },
   });
 
@@ -282,25 +283,42 @@ const AccountProfile = ({ user, btnTitle }: HeadingProps) => {
           )}
         />
 
-        <div className='items-top flex space-x-2'>
-          <Checkbox id='terms' />
-          <div className='grid gap-1.5 leading-none'>
-            <label
-              htmlFor='terms1'
-              className='text-sm text-light-1 font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
-            >
-              Accept terms and conditions
-            </label>
-            <p className='text-sm text-dark-5 !text-[14px]'>
-              You agree to our Terms of Service and Privacy Policy.
-            </p>
-          </div>
-        </div>
+        <FormField
+          control={form.control}
+          name='termsAccepted'
+          render={({ field }) => (
+            <FormItem className='items-center flex gap-4'>
+              <FormControl>
+                <Checkbox
+                  id='terms'
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
+              <div className='grid gap-1.5 leading-none'>
+                <FormLabel
+                  htmlFor='terms'
+                  className='text-sm text-light-1 font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
+                >
+                  <span>Accept terms and conditions </span>
+                  <Asterisk />
+                </FormLabel>
+                <FormDescription className='!text-[14px] font-medium text-dark-5'>
+                  You agree to our Terms of Service and Privacy Policy.
+                </FormDescription>
+              </div>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         <Button type='submit' className='bg-primary'>
           {btnTitle}
         </Button>
       </animated.form>
+      {/* <pre className='text-light-1'>
+        {JSON.stringify(form.watch(), null, 2)}
+      </pre> */}
     </Form>
   );
 };
