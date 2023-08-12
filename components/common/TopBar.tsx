@@ -1,4 +1,5 @@
 import { SignedIn, SignOutButton, OrganizationSwitcher } from '@clerk/nextjs';
+import { dark } from '@clerk/themes';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeftOnRectangleIcon } from '@heroicons/react/24/solid';
@@ -33,6 +34,7 @@ const TopBar = () => {
         </div>
         <OrganizationSwitcher
           appearance={{
+            baseTheme: dark,
             elements: {
               organizationSwitcherTrigger: 'py-2 px-4',
             },
