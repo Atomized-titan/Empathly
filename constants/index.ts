@@ -25,8 +25,8 @@ export const sidebarLinks = [
   },
   {
     icon: PlusIcon,
-    route: '/create-feel',
-    label: 'Create Feel',
+    route: '/create-feeling',
+    label: 'Create Feeling',
   },
   {
     icon: UserGroupIcon,
@@ -41,13 +41,13 @@ export const sidebarLinks = [
 ];
 
 export const profileTabs = [
-  { value: 'threads', label: 'Threads', icon: '/assets/reply.svg' },
+  { value: 'feelings', label: 'Feelings', icon: '/assets/reply.svg' },
   { value: 'replies', label: 'Replies', icon: '/assets/members.svg' },
   { value: 'tagged', label: 'Tagged', icon: '/assets/tag.svg' },
 ];
 
 export const communityTabs = [
-  { value: 'threads', label: 'Threads', icon: '/assets/reply.svg' },
+  { value: 'feelings', label: 'Feelings', icon: '/assets/reply.svg' },
   { value: 'members', label: 'Members', icon: '/assets/members.svg' },
   { value: 'requests', label: 'Requests', icon: '/assets/request.svg' },
 ];

@@ -1,4 +1,9 @@
 import * as z from 'zod';
+export enum Gender {
+  Male = 'male',
+  Female = 'female',
+  Other = 'other',
+}
 
 export const UserValidation = z.object({
   profile_photo: z.string().url().nonempty(),
@@ -14,4 +19,5 @@ export const UserValidation = z.object({
     .string()
     .min(3, { message: 'Minimum 3 characters.' })
     .max(1000, { message: 'Maximum 1000 caracters.' }),
+  gender: z.nativeEnum(Gender),
 });

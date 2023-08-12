@@ -9,7 +9,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { UserValidation } from '@/lib/validations/user';
+import { Gender, UserValidation } from '@/lib/validations/user';
 import { PhotoIcon } from '@heroicons/react/24/outline';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
@@ -33,6 +33,8 @@ import Asterisk from '../common/Asterisk';
 import { Checkbox } from '../ui/checkbox';
 import { isBase64Image } from '@/lib/utils';
 import { useUploadThing } from '@/lib/uploadthing.';
+import { updateUser } from '@/lib/actions/users.actions';
+import { usePathname, useRouter } from 'next/navigation';
 
 interface HeadingProps {
   user: {
@@ -42,13 +44,15 @@ interface HeadingProps {
     username: string;
     image: string;
     bio: string;
-    gender: 'male' | 'female' | 'other';
+    gender: Gender;
   };
   btnTitle: string;
 }
 const AccountProfile = ({ user, btnTitle }: HeadingProps) => {
   const [files, setFiles] = useState<File[]>([]);
   const { startUpload } = useUploadThing('media');
+  const router = useRouter();
+  const pathname = usePathname();
 
   // react-spring animation
   const springProps = useSpring({
@@ -106,7 +110,21 @@ const AccountProfile = ({ user, btnTitle }: HeadingProps) => {
       }
     }
 
-    //TODO: Backend function to update user
+    await updateUser({
+      userId: user.id,
+      name: values.name,
+      username: values.username,
+      bio: values.bio,
+      image: values.profile_photo,
+      gender: values.gender,
+      path: pathname,
+    });
+
+    if (pathname === '/profile/edit') {
+      router.back();
+    } else {
+      router.push('/');
+    }
   };
 
   return (
