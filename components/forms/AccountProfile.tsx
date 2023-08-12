@@ -31,6 +31,8 @@ import {
 } from '../ui/select';
 import Asterisk from '../common/Asterisk';
 import { Checkbox } from '../ui/checkbox';
+import { isBase64Image } from '@/lib/utils';
+import { useUploadThing } from '@/lib/uploadthing.';
 
 interface HeadingProps {
   user: {
@@ -46,6 +48,7 @@ interface HeadingProps {
 }
 const AccountProfile = ({ user, btnTitle }: HeadingProps) => {
   const [files, setFiles] = useState<File[]>([]);
+  const { startUpload } = useUploadThing('media');
 
   // react-spring animation
   const springProps = useSpring({
@@ -65,10 +68,6 @@ const AccountProfile = ({ user, btnTitle }: HeadingProps) => {
       gender: user?.gender || '',
     },
   });
-
-  const onSubmit = (values: z.infer<typeof UserValidation>) => {
-    console.log(values);
-  };
 
   const handleImage = (
     e: ChangeEvent<HTMLInputElement>,
@@ -94,6 +93,22 @@ const AccountProfile = ({ user, btnTitle }: HeadingProps) => {
       fileReader.readAsDataURL(file);
     }
   };
+
+  const onSubmit = async (values: z.infer<typeof UserValidation>) => {
+    const blob = values.profile_photo;
+    const hasImageChanged = isBase64Image(blob);
+
+    if (hasImageChanged) {
+      const imgRes = await startUpload(files);
+
+      if (imgRes && imgRes[0].url) {
+        values.profile_photo = imgRes[0].url;
+      }
+    }
+
+    //TODO: Backend function to update user
+  };
+
   return (
     <Form {...form}>
       <animated.form
