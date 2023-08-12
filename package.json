@@ -6,17 +6,21 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "lint:fix": "eslint app --fix"
   },
   "dependencies": {
     "@clerk/nextjs": "^4.23.2",
     "@types/node": "20.4.10",
     "@types/react": "18.2.20",
     "@types/react-dom": "18.2.7",
+    "@typescript-eslint/eslint-plugin": "^6.3.0",
     "@uploadthing/react": "^5.2.1",
     "autoprefixer": "10.4.14",
     "eslint": "8.47.0",
     "eslint-config-next": "13.4.13",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
     "mongoose": "^7.4.3",
     "next": "13.4.13",
     "postcss": "8.4.27",
