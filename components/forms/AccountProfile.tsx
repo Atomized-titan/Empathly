@@ -35,6 +35,7 @@ import { isBase64Image } from '@/lib/utils';
 import { useUploadThing } from '@/lib/uploadthing.';
 import { updateUser } from '@/lib/actions/users.actions';
 import { usePathname, useRouter } from 'next/navigation';
+import { ArrowPathIcon } from '@heroicons/react/24/solid';
 
 interface HeadingProps {
   user: {
@@ -53,6 +54,7 @@ const AccountProfile = ({ user, btnTitle }: HeadingProps) => {
   const { startUpload } = useUploadThing('media');
   const router = useRouter();
   const pathname = usePathname();
+  const [loading, setLoading] = useState(false);
 
   // react-spring animation
   const springProps = useSpring({
@@ -100,6 +102,7 @@ const AccountProfile = ({ user, btnTitle }: HeadingProps) => {
   };
 
   const onSubmit = async (values: z.infer<typeof UserValidation>) => {
+    setLoading(true);
     const blob = values.profile_photo;
     const hasImageChanged = isBase64Image(blob);
 
@@ -120,6 +123,8 @@ const AccountProfile = ({ user, btnTitle }: HeadingProps) => {
       gender: values.gender,
       path: pathname,
     });
+
+    setLoading(false);
 
     if (pathname === '/profile/edit') {
       router.back();
@@ -312,8 +317,15 @@ const AccountProfile = ({ user, btnTitle }: HeadingProps) => {
           )}
         />
 
-        <Button type='submit' className='bg-primary'>
-          {btnTitle}
+        <Button type='submit' className='bg-primary' disabled={loading}>
+          {loading ? (
+            <div className='flex items-center gap-2'>
+              <ArrowPathIcon className='w-5 h-5 animate-spin' />
+              <span>Please wait</span>
+            </div>
+          ) : (
+            btnTitle
+          )}
         </Button>
       </animated.form>
       {/* <pre className='text-light-1'>
