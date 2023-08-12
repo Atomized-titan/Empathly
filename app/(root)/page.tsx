@@ -1,11 +1,11 @@
-import { UserButton } from "@clerk/nextjs";
+import { UserButton } from '@clerk/nextjs';
 
 export default function Home() {
   return (
     <main>
-      <h1>Empathly</h1>
+      <h1 className='head-text'>Empathly</h1>
       <div>
-        <UserButton afterSignOutUrl="/" />
+        <UserButton afterSignOutUrl='/' />
       </div>
     </main>
   );
