@@ -94,3 +94,85 @@ export async function fetchFeelings(pageNumber = 1, pageSize = 20) {
     throw new Error(`Failed to fetch feelings: ${error.message}`);
   }
 }
+
+export async function fetchFeelingById(feelingId: string) {
+  connectToDatabase();
+
+  try {
+    const feeling = await Feeling.findById(feelingId)
+      .populate({
+        path: 'author',
+        model: User,
+        select: '_id id name image',
+      }) // Populate the author field with _id and username
+      .populate({
+        path: 'community',
+        model: Community,
+        select: '_id id name image',
+      }) // Populate the community field with _id and name
+      .populate({
+        path: 'children', // Populate the children field
+        populate: [
+          {
+            path: 'author', // Populate the author field within children
+            model: User,
+            select: '_id id name parentId image', // Select only _id and username fields of the author
+          },
+          {
+            path: 'children', // Populate the children field within children
+            model: Feeling, // The model of the nested children (assuming it's the same "Feeling" model)
+            populate: {
+              path: 'author', // Populate the author field within nested children
+              model: User,
+              select: '_id id name parentId image', // Select only _id and username fields of the author
+            },
+          },
+        ],
+      })
+      .exec();
+
+    return feeling;
+  } catch (err) {
+    console.error('Error while fetching feeling:', err);
+    throw new Error('Unable to fetch feeling');
+  }
+}
+
+export async function addCommentToFeeling(
+  feelingId: string,
+  commentText: string,
+  userId: string,
+  path: string
+) {
+  connectToDatabase();
+
+  try {
+    // Find the original feeling by its ID
+    const originalFeeling = await Feeling.findById(feelingId);
+
+    if (!originalFeeling) {
+      throw new Error('Feeling not found');
+    }
+
+    // Create the new comment feeling
+    const commentFeeling = new Feeling({
+      text: commentText,
+      author: userId,
+      parentId: feelingId, // Set the parentId to the original feeling's ID
+    });
+
+    // Save the comment feeling to the database
+    const savedCommentFeeling = await commentFeeling.save();
+
+    // Add the comment feeling's ID to the original feeling's children array
+    originalFeeling.children.push(savedCommentFeeling._id);
+
+    // Save the updated original feeling to the database
+    await originalFeeling.save();
+
+    revalidatePath(path);
+  } catch (err) {
+    console.error('Error while adding comment:', err);
+    throw new Error('Unable to add comment');
+  }
+}
