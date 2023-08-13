@@ -1,7 +1,9 @@
-import PostFeeling from '@/components/forms/PostFeeling';
-import { fetchUser } from '@/lib/actions/users.actions';
-import { currentUser, useClerk } from '@clerk/nextjs';
+import { currentUser } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
+
+import { fetchUser } from '@/lib/actions/users.actions';
+
+import PostFeeling from '@/components/forms/PostFeeling';
 
 export async function Home() {
   const user = await currentUser();

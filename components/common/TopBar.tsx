@@ -26,7 +26,7 @@ const TopBar = () => {
           <SignedIn>
             <SignOutButton>
               <div className='flex cursor-pointer'>
-                <ArrowLeftOnRectangleIcon className='w-5 h-5 text-light-1' />
+                <ArrowLeftOnRectangleIcon className='w-6 h-6 text-light-1' />
               </div>
             </SignOutButton>
           </SignedIn>

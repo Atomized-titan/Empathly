@@ -24,7 +24,7 @@ export default function RootLayout({
 }) {
   return (
     <ClerkProvider>
-      <html lang='en'>
+      <html lang='en' className='dark'>
         <body className={dmSans.className}>
           <TopBar />
           <main className='flex flex-row'>
