@@ -28,6 +28,7 @@ export async function Page({ params }: { params: { id: string } }) {
           username={userInfo.username}
           imgUrl={userInfo.image}
           bio={userInfo.bio}
+          createdAt={user.createdAt}
         />
 
         <div className='mt-9'>

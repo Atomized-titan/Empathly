@@ -110,8 +110,8 @@ const FeelingCard = ({
 
       <div className='flex items-center gap-4 text-subtle-medium text-light-1'>
         <LikeButton
-          id={id}
-          currentUserObjectId={currentUserObjectId}
+          id={JSON.stringify(id)}
+          currentUserObjectId={JSON.stringify(currentUserObjectId)}
           likes={likes}
         />
         <Link href={`/feeling/${id}`}>

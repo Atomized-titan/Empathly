@@ -11,7 +11,11 @@ interface Props {
 }
 
 const LikeButton = ({ id, currentUserObjectId, likes }: Props) => {
-  const [isLiked, setIsLiked] = useState(likes.includes(currentUserObjectId));
+  const parsedCurrentUserObjectId = JSON.parse(currentUserObjectId);
+  const parsedId = JSON.parse(id);
+  const [isLiked, setIsLiked] = useState(
+    likes.includes(parsedCurrentUserObjectId)
+  );
   const [likeCount, setLikeCount] = useState(likes.length);
 
   const handleLike = async () => {
@@ -21,7 +25,7 @@ const LikeButton = ({ id, currentUserObjectId, likes }: Props) => {
       setLikeCount(likeCount + 1);
 
       // Call the API to like the feeling
-      await likeFeeling(id, currentUserObjectId);
+      await likeFeeling(parsedId, parsedCurrentUserObjectId);
 
       // Server confirmation will be handled in the catch block if there's an error
     } catch (error) {
@@ -39,7 +43,7 @@ const LikeButton = ({ id, currentUserObjectId, likes }: Props) => {
       setLikeCount(likeCount - 1);
 
       // Call the API to unlike the feeling
-      await unlikeFeeling(id, currentUserObjectId);
+      await unlikeFeeling(parsedId, parsedCurrentUserObjectId);
 
       // Server confirmation will be handled in the catch block if there's an error
     } catch (error) {
