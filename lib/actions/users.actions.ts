@@ -14,8 +14,30 @@ export async function fetchUser(userId: string) {
       path: 'communities',
       model: Community,
     });
-  } catch (error: any) {
-    throw new Error(`Failed to fetch user: ${error.message}`);
+  } catch (e) {
+    throw new Error(`Failed to fetch user: ${e}`);
+  }
+}
+
+export async function fetchAllUsers(searchString: string, page: number, rows: number) {
+  try {
+    // connect to database
+    connectToDatabase()
+    // create regex with search string
+    const regex = new RegExp(searchString, 'i');
+    // get users
+    const foundUsers = await User.find({ username: regex })
+        // skip (offset)
+        .skip((page - 1) * rows)
+        // limit (rows + 1)
+        .limit(rows + 1);
+
+    return {
+      users: foundUsers,
+      nextPage: foundUsers.length < rows,
+    };
+  } catch (e) {
+    throw new Error(`Failed to fetch users: ${e}`)
   }
 }
 
