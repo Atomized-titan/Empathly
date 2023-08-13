@@ -46,6 +46,7 @@ interface HeadingProps {
     image: string;
     bio: string;
     gender: Gender;
+    termsAccepted: boolean;
   };
   btnTitle: string;
 }
@@ -72,7 +73,7 @@ const AccountProfile = ({ user, btnTitle }: HeadingProps) => {
       username: user?.username || '',
       bio: user?.bio || '',
       gender: user?.gender || '',
-      termsAccepted: false,
+      termsAccepted: user?.termsAccepted || false,
     },
   });
 
