@@ -1,10 +1,12 @@
-import FeelingCard from '@/components/cards/FeelingCard';
-import Comment from '@/components/forms/Comment';
-import { fetchFeelingById } from '@/lib/actions/feeling.actions';
-import { fetchUser } from '@/lib/actions/users.actions';
 import { currentUser } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
 import React from 'react';
+
+import { fetchFeelingById } from '@/lib/actions/feeling.actions';
+import { fetchUser } from '@/lib/actions/users.actions';
+
+import FeelingCard from '@/components/cards/FeelingCard';
+import Comment from '@/components/forms/Comment';
 
 const Page = async ({ params }: { params: { id: string } }) => {
   if (!params.id) return null;
@@ -22,7 +24,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
         <FeelingCard
           key={feeling._id}
           id={feeling._id}
-          currentUserObjectId={JSON.stringify(userInfo._id)}
+          currentUserObjectId={userInfo._id}
           likes={feeling.likes}
           image={feeling.image}
           currentUserId={user?.id || ''}
@@ -48,7 +50,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
           <FeelingCard
             likes={childItem.likes}
             key={childItem._id}
-            currentUserObjectId={JSON.stringify(userInfo._id)}
+            currentUserObjectId={userInfo._id}
             id={childItem._id}
             currentUserId={user.id}
             image={childItem.image}

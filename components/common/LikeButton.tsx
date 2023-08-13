@@ -12,11 +12,13 @@ interface Props {
 
 const LikeButton = ({ id, currentUserObjectId, likes }: Props) => {
   const [isLiked, setIsLiked] = useState(likes.includes(currentUserObjectId));
+  const [likeCount, setLikeCount] = useState(likes.length);
 
   const handleLike = async () => {
     try {
       // Optimistically update the UI
       setIsLiked(true);
+      setLikeCount(likeCount + 1);
 
       // Call the API to like the feeling
       await likeFeeling(id, currentUserObjectId);
@@ -26,6 +28,7 @@ const LikeButton = ({ id, currentUserObjectId, likes }: Props) => {
       console.error('Error liking feeling:', error);
       // Handle error (display a message, etc.)
       setIsLiked(false); // Revert the UI state
+      setLikeCount(likeCount); // Revert the like count
     }
   };
 
@@ -33,6 +36,7 @@ const LikeButton = ({ id, currentUserObjectId, likes }: Props) => {
     try {
       // Optimistically update the UI
       setIsLiked(false);
+      setLikeCount(likeCount - 1);
 
       // Call the API to unlike the feeling
       await unlikeFeeling(id, currentUserObjectId);
@@ -42,6 +46,7 @@ const LikeButton = ({ id, currentUserObjectId, likes }: Props) => {
       console.error('Error unliking feeling:', error);
       // Handle error (display a message, etc.)
       setIsLiked(true); // Revert the UI state
+      setLikeCount(likeCount); // Revert the like count
     }
   };
 
@@ -55,15 +60,15 @@ const LikeButton = ({ id, currentUserObjectId, likes }: Props) => {
         }
       }}
     >
-      <div className='flex items-center gap-1'>
+      <div className='flex items-center gap-2'>
         <HeartIcon
-          className={`w-5 h-5 ${isLiked ? 'fill-primary' : 'text-light-1'}`}
+          className={`w-5 h-5 ${
+            isLiked ? 'fill-primary text-primary !font-medium' : 'text-light-1'
+          }`}
         />
-        {isLiked ? (
-          <span className='text-primary'>Liked</span>
-        ) : (
-          <span>{likes.length} Likes</span>
-        )}
+        <span className={`${isLiked ? 'text-primary' : ''}`}>
+          {likeCount} Like{likeCount !== 1 ? 's' : ''}
+        </span>
       </div>
     </button>
   );
