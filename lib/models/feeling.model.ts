@@ -1,3 +1,5 @@
+'use server';
+
 import mongoose from 'mongoose';
 
 const feelingSchema = new mongoose.Schema({

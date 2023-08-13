@@ -1,3 +1,5 @@
+'use server';
+
 import { revalidatePath } from 'next/cache';
 import Community from '../models/community.model';
 import Feeling from '../models/feeling.model';

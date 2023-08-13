@@ -80,6 +80,7 @@ const PostFeeling = ({ userId }: { userId: string }) => {
   });
 
   const onSubmit = async (values: z.infer<typeof FeelingValidation>) => {
+    setLoading(true);
     await createFeeling({
       text: values.feeling,
       author: userId,
@@ -87,6 +88,7 @@ const PostFeeling = ({ userId }: { userId: string }) => {
       path: pathname,
     });
 
+    setLoading(false);
     router.push('/');
   };
 
@@ -113,8 +115,15 @@ const PostFeeling = ({ userId }: { userId: string }) => {
           )}
         />
 
-        <Button type='submit' className='bg-primary-500'>
-          Post Feeling
+        <Button type='submit' className='bg-primary' disabled={loading}>
+          {loading ? (
+            <div className='flex items-center gap-2'>
+              <ArrowPathIcon className='w-5 h-5 animate-spin' />
+              <span>Please wait</span>
+            </div>
+          ) : (
+            <span>Post Feeling</span>
+          )}
         </Button>
       </animated.form>
     </Form>
