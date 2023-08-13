@@ -139,17 +139,19 @@ function ProfileHeader({
           </div>
 
           {/* // count of followers and following */}
-          <div>
+          <div className='flex items-center gap-4 mt-4'>
             <p className='text-base-medium mb-2 flex items-center gap-2'>
-              <span>Followers: {followersCount}</span>
+              {followersCount}
+              <span className='text-dark-5'> Followers </span>
             </p>
             <p className='text-base-medium mb-2 flex items-center gap-2'>
-              <span>Following: {followingCount}</span>
+              {followingCount}
+              <span className='text-dark-5'> Following </span>
             </p>
           </div>
         </div>
       </div>
-      <div className='mt-12 h-0.5 w-full bg-dark-3' />
+      <div className='mt-2 h-0.5 w-full bg-dark-3' />
     </div>
   );
 }
