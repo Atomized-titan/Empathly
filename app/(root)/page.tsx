@@ -14,7 +14,7 @@ async function Home() {
   if (!userInfo?.onboarded) redirect('/onboarding');
 
   const feelings = await fetchFeelings(1, 20);
-  // console.log(feelings);
+  console.log(feelings);
   return (
     <main>
       <h1 className='head-text'>Home</h1>
@@ -29,12 +29,14 @@ async function Home() {
                 id={post._id}
                 image={post.image}
                 currentUserId={user?.id || ''}
+                currentUserObjectId={userInfo._id}
                 parentId={post.parentId}
                 content={post.text}
                 author={post.author}
                 community={post.community}
                 createdAt={post.createdAt}
                 comments={post.children}
+                likes={post.likes}
               />
             ))}
           </>

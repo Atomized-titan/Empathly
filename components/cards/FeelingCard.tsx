@@ -3,18 +3,18 @@ import {
   BookmarkIcon,
   ChatBubbleBottomCenterIcon,
   ClockIcon,
-  HeartIcon,
   ShareIcon,
 } from '@heroicons/react/24/outline';
 import { EllipsisVerticalIcon } from '@heroicons/react/24/solid';
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
+import LikeButton from '../common/LikeButton';
 import { Button } from '../ui/button';
 
 interface Props {
   id: string;
   currentUserId: string;
+  currentUserObjectId: string;
   parentId: string;
   content: string;
   image: string;
@@ -35,17 +35,20 @@ interface Props {
     };
   }[];
   isComment?: boolean;
+  likes: string[]; // Array of user IDs who have liked the feeling
 }
 
 const FeelingCard = ({
   id,
   currentUserId,
+  currentUserObjectId,
   parentId,
   content,
   image,
   author,
   community,
   createdAt,
+  likes,
   comments,
   isComment,
 }: Props) => {
@@ -106,9 +109,11 @@ const FeelingCard = ({
       </div>
 
       <div className='flex items-center gap-4 text-subtle-medium text-light-1'>
-        <div className='flex items-center gap-1'>
-          <HeartIcon className='w-5 h-5 text-light-1' /> <span>24 Likes</span>
-        </div>
+        <LikeButton
+          id={id}
+          currentUserObjectId={currentUserObjectId}
+          likes={likes}
+        />
         <Link href={`/feeling/${id}`}>
           <div className='flex items-center gap-1'>
             <ChatBubbleBottomCenterIcon className='w-5 h-5 text-light-1' />{' '}

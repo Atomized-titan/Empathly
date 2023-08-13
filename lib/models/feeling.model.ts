@@ -22,6 +22,12 @@ const feelingSchema = new mongoose.Schema({
   parentId: {
     type: String,
   },
+  likes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
+  ],
   // feeling recursion so that a feeling can have feelings - lol
   children: [
     {

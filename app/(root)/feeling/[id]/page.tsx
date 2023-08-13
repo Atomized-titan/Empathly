@@ -22,6 +22,8 @@ const Page = async ({ params }: { params: { id: string } }) => {
         <FeelingCard
           key={feeling._id}
           id={feeling._id}
+          currentUserObjectId={JSON.stringify(userInfo._id)}
+          likes={feeling.likes}
           image={feeling.image}
           currentUserId={user?.id || ''}
           parentId={feeling.parentId}
@@ -44,7 +46,9 @@ const Page = async ({ params }: { params: { id: string } }) => {
       <div className='mt-10'>
         {feeling.children.map((childItem: any) => (
           <FeelingCard
+            likes={childItem.likes}
             key={childItem._id}
+            currentUserObjectId={JSON.stringify(userInfo._id)}
             id={childItem._id}
             currentUserId={user.id}
             image={childItem.image}
