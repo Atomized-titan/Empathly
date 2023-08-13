@@ -8,6 +8,7 @@ import { connectToDatabase } from '../mongoose';
 
 interface Params {
   text: string;
+  image: string;
   author: string;
   communityId: string | null;
   path: string;
@@ -16,6 +17,7 @@ interface Params {
 export async function createFeeling({
   text,
   author,
+  image,
   communityId,
   path,
 }: Params) {
@@ -30,6 +32,7 @@ export async function createFeeling({
     const createdFeeling = await Feeling.create({
       text,
       author,
+      image,
       community: communityIdObject, // Assign communityId if provided, or leave it null for personal account
     });
 

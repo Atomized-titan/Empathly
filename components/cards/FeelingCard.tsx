@@ -1,5 +1,11 @@
 import { formatDateString } from '@/lib/utils';
-import { BookmarkIcon, ClockIcon } from '@heroicons/react/24/outline';
+import {
+  BookmarkIcon,
+  ChatBubbleBottomCenterIcon,
+  ClockIcon,
+  HeartIcon,
+  ShareIcon,
+} from '@heroicons/react/24/outline';
 import { EllipsisVerticalIcon } from '@heroicons/react/24/solid';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -11,6 +17,7 @@ interface Props {
   currentUserId: string;
   parentId: string;
   content: string;
+  image: string;
   author: {
     id: string;
     name: string;
@@ -35,6 +42,7 @@ const FeelingCard = ({
   currentUserId,
   parentId,
   content,
+  image,
   author,
   community,
   createdAt,
@@ -52,11 +60,15 @@ const FeelingCard = ({
               className='cursor-pointer rounded-full'
             />
           </Link>
-          <div className='flex flex-1 flex-col gap-1'>
-            <h3 className='text-base-medium md:text-body-medium text-light-1'>
-              {author.name}
-            </h3>
-            <p className='text-subtle-medium md:text-small-regular text-gray-400 flex items-center gap-1'>
+          <div className='flex flex-1 -mt-2 flex-col gap-1'>
+            <Link href={`/profile/${author.id}`} className='cursor-pointer'>
+              <Button variant='link' className='p-0'>
+                <h3 className='text-base-medium md:text-body-medium text-light-1'>
+                  {author.name}
+                </h3>
+              </Button>
+            </Link>
+            <p className='text-subtle-medium -mt-2 md:text-small-regular text-gray-400 flex items-center gap-1'>
               <ClockIcon className='w-4 h-4 text-gray-400' />{' '}
               <span>{formatDateString(createdAt)}</span>
             </p>
@@ -71,7 +83,35 @@ const FeelingCard = ({
           </Button>
         </div>
       </div>
-      <h2 className='text-small-regular text-light-2'>{content}</h2>
+      <div className='text-light-2 bg-dark-3 p-4 rounded-xl'>
+        <p className='text-small-regular'>{content}</p>
+        {image ? (
+          <div className='w-full h-[300px] my-6'>
+            <div className='relative w-full h-full'>
+              <Image
+                src={image}
+                alt='feeling_image'
+                layout='fill'
+                objectFit='cover'
+                objectPosition='center'
+              />
+            </div>
+          </div>
+        ) : null}
+      </div>
+
+      <div className='flex items-center gap-4 text-subtle-medium text-light-1'>
+        <div className='flex items-center gap-1'>
+          <HeartIcon className='w-5 h-5 text-light-1' /> <span>24 Likes</span>
+        </div>
+        <div className='flex items-center gap-1'>
+          <ChatBubbleBottomCenterIcon className='w-5 h-5 text-light-1' />{' '}
+          <span>{comments.length} Comments</span>
+        </div>
+        <div className='flex items-center gap-1'>
+          <ShareIcon className='w-5 h-5 text-light-1' /> Share
+        </div>
+      </div>
     </article>
   );
 };

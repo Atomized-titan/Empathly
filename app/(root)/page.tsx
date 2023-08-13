@@ -14,7 +14,7 @@ async function Home() {
   if (!userInfo?.onboarded) redirect('/onboarding');
 
   const feelings = await fetchFeelings(1, 20);
-
+  console.log(feelings);
   return (
     <main>
       <h1 className='head-text'>Home</h1>
@@ -27,6 +27,7 @@ async function Home() {
               <FeelingCard
                 key={post._id}
                 id={post._id}
+                image={post.image}
                 currentUserId={user?.id || ''}
                 parentId={post.parentId}
                 content={post.text}

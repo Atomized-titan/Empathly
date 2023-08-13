@@ -76,13 +76,51 @@ const PostFeeling = ({ userId }: { userId: string }) => {
     defaultValues: {
       feeling: '',
       accountId: userId,
+      image: '',
     },
   });
 
+  const handleImageUpload = (
+    e: ChangeEvent<HTMLInputElement>,
+    fieldChange: (value: string) => void
+  ) => {
+    e.preventDefault();
+
+    const fileReader = new FileReader();
+
+    const handleFileLoad = async (event: ProgressEvent<FileReader>) => {
+      const imageDataUrl = event.target?.result?.toString() || '';
+      fieldChange(imageDataUrl);
+    };
+
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      setFiles(Array.from(e.target.files));
+
+      if (!file.type.includes('image')) return;
+
+      fileReader.onload = handleFileLoad;
+
+      fileReader.readAsDataURL(file);
+    }
+  };
+
   const onSubmit = async (values: z.infer<typeof FeelingValidation>) => {
     setLoading(true);
+    const blob = values.image;
+    const hasImageChanged = isBase64Image(blob);
+
+    if (hasImageChanged) {
+      const imgRes = await startUpload(files);
+
+      if (imgRes && imgRes[0].url) {
+        values.image = imgRes[0].url;
+      }
+    }
+
     await createFeeling({
       text: values.feeling,
+      image: values.image,
       author: userId,
       communityId: organization ? organization.id : null,
       path: pathname,
@@ -108,14 +146,56 @@ const PostFeeling = ({ userId }: { userId: string }) => {
                 Content
               </FormLabel>
               <FormControl className='no-focus border border-dark-4 bg-dark-3 text-light-1'>
-                <Textarea rows={15} {...field} className='!text-[18px]' />
+                <Textarea rows={10} {...field} className='!text-[18px]' />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <Button type='submit' className='bg-primary' disabled={loading}>
+        <FormField
+          control={form.control}
+          name='image'
+          render={({ field }) => (
+            <FormItem className='flex w-full flex-col gap-4'>
+              <FormLabel className='text-lg font-semibold text-light-2'>
+                Upload Image
+              </FormLabel>
+              <FormControl>
+                <div className='relative border border-dark-4 bg-dark-3 text-light-1 rounded-md overflow-hidden'>
+                  <label
+                    htmlFor='image-upload'
+                    className='cursor-pointer flex items-center justify-center p-4 text-sm font-medium hover:bg-dark-4'
+                  >
+                    <PhotoIcon className='w-6 h-6 text-light-1 mr-2' />
+                    Upload Image
+                  </label>
+                  <input
+                    type='file'
+                    id='image-upload'
+                    accept='image/*'
+                    className='sr-only'
+                    onChange={(e) => handleImageUpload(e, field.onChange)}
+                  />
+                  {field.value && (
+                    <div className='mt-2'>
+                      <Image
+                        src={field.value}
+                        alt='uploaded_image'
+                        width={200}
+                        height={150}
+                        className='rounded-lg object-cover'
+                      />
+                    </div>
+                  )}
+                </div>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <Button type='submit' className='!bg-primary' disabled={loading}>
           {loading ? (
             <div className='flex items-center gap-2'>
               <ArrowPathIcon className='w-5 h-5 animate-spin' />
