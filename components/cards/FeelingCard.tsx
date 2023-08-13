@@ -15,7 +15,7 @@ interface Props {
   id: string;
   currentUserId: string;
   currentUserObjectId: string;
-  parentId: string;
+  parentId: string | null;
   content: string;
   image: string;
   author: {
@@ -24,7 +24,7 @@ interface Props {
     image: string;
   };
   community: {
-    _id: string;
+    id: string;
     name: string;
     image: string;
   } | null;

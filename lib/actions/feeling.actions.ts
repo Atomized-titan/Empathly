@@ -38,13 +38,13 @@ export async function createFeeling({
 
     // Update User model
     await User.findByIdAndUpdate(author, {
-      $push: { feeling: createdFeeling._id },
+      $push: { feelings: createdFeeling._id },
     });
 
     if (communityIdObject) {
       // Update Community model
       await Community.findByIdAndUpdate(communityIdObject, {
-        $push: { feeling: createdFeeling._id },
+        $push: { feelings: createdFeeling._id },
       });
     }
 

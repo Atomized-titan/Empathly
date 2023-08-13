@@ -5,6 +5,7 @@ import User from '../models/user.model';
 import { connectToDatabase } from '../mongoose';
 import { Gender } from '../validations/user';
 import Community from '../models/community.model';
+import Feeling from '../models/feeling.model';
 
 export async function fetchUser(userId: string) {
   try {
@@ -65,5 +66,37 @@ export async function updateUser({
   } catch (error) {
     console.error('Failed to update user:', error);
     throw new Error(`Failed to update user: ${error}`);
+  }
+}
+
+export async function fetchUserPosts(userId: string) {
+  try {
+    connectToDatabase();
+
+    // Find all feelings authored by the user with the given userId
+    const feelings = await User.findOne({ id: userId }).populate({
+      path: 'feelings',
+      model: Feeling,
+      populate: [
+        {
+          path: 'community',
+          model: Community,
+          select: 'name id image _id', // Select the "name" and "_id" fields from the "Community" model
+        },
+        {
+          path: 'children',
+          model: Feeling,
+          populate: {
+            path: 'author',
+            model: User,
+            select: 'name image id', // Select the "name" and "_id" fields from the "User" model
+          },
+        },
+      ],
+    });
+    return feelings;
+  } catch (error) {
+    console.error('Error fetching user feelings:', error);
+    throw error;
   }
 }

@@ -5,6 +5,9 @@ import {
   PlusIcon,
   UserGroupIcon,
   UserIcon,
+  ChatBubbleBottomCenterIcon,
+  TagIcon,
+  ArrowPathRoundedSquareIcon,
 } from '@heroicons/react/24/outline';
 
 export const sidebarLinks = [
@@ -41,13 +44,13 @@ export const sidebarLinks = [
 ];
 
 export const profileTabs = [
-  { value: 'feelings', label: 'Feelings', icon: '/assets/reply.svg' },
-  { value: 'replies', label: 'Replies', icon: '/assets/members.svg' },
-  { value: 'tagged', label: 'Tagged', icon: '/assets/tag.svg' },
+  { value: 'feelings', label: 'Feelings', icon: ChatBubbleBottomCenterIcon },
+  { value: 'replies', label: 'Replies', icon: UserGroupIcon },
+  { value: 'tagged', label: 'Tagged', icon: TagIcon },
 ];
 
 export const communityTabs = [
-  { value: 'feelings', label: 'Feelings', icon: '/assets/reply.svg' },
-  { value: 'members', label: 'Members', icon: '/assets/members.svg' },
-  { value: 'requests', label: 'Requests', icon: '/assets/request.svg' },
+  { value: 'feelings', label: 'Feelings', icon: ChatBubbleBottomCenterIcon },
+  { value: 'members', label: 'Members', icon: UserGroupIcon },
+  { value: 'requests', label: 'Requests', icon: ArrowPathRoundedSquareIcon },
 ];
