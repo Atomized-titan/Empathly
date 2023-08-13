@@ -39,25 +39,31 @@ export async function updateUser({
 }: UserValidationProps): Promise<void> {
   connectToDatabase();
   try {
-    await User.findOneAndUpdate(
-      { id: userId },
-      {
-        username: username.toLowerCase(),
-        name,
-        bio,
-        image,
-        onboarded: true,
-        termsAccepted: true,
-        gender,
-      },
-      {
-        upsert: true,
-      }
-    );
+    console.log('Updating user:', userId);
+
+    const updatedData = {
+      username: username.toLowerCase(),
+      name,
+      bio,
+      image,
+      onboarded: true,
+      termsAccepted: true,
+      gender,
+    };
+
+    console.log('Updated data:', updatedData);
+
+    await User.findOneAndUpdate({ id: userId }, updatedData, {
+      upsert: true,
+    });
+
+    console.log('User updated successfully.');
+
     if (path === '/profile/edit') {
       revalidatePath(path);
     }
   } catch (error) {
+    console.error('Failed to update user:', error);
     throw new Error(`Failed to update user: ${error}`);
   }
 }

@@ -13,7 +13,6 @@ const TopBar = () => {
           alt='logo'
           width={32}
           height={32}
-          objectFit='contain'
           priority
           quality={100}
           unoptimized
