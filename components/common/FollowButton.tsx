@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { PlusIcon, MinusIcon } from '@heroicons/react/24/outline';
-import { Button } from '../ui/button';
 import { followUser, unfollowUser } from '@/lib/actions/users.actions';
+import { PlusIcon } from '@heroicons/react/24/outline';
+import { usePathname } from 'next/navigation';
+import { useState } from 'react';
+import { Button } from '../ui/button';
 
 interface Props {
   accountId: string;
@@ -18,9 +19,10 @@ const FollowButton = ({
 }: Props) => {
   const [isUserFollowing, setIsUserFollowing] = useState(isFollowing);
   const [followerCount, setFollowerCount] = useState(followersCount);
-
+  const pathName = usePathname();
   const parsedAccountId = JSON.parse(accountId);
   const parsedAuthUserId = JSON.parse(authUserId);
+
   const handleFollow = async () => {
     try {
       // Optimistically update the UI
@@ -28,7 +30,7 @@ const FollowButton = ({
       setFollowerCount(followerCount + 1);
 
       // Call the API to follow the user
-      await followUser(parsedAuthUserId, parsedAccountId);
+      await followUser(parsedAuthUserId, parsedAccountId, pathName);
     } catch (error) {
       console.error('Error following user:', error);
       // Handle error (display a message, etc.)
@@ -44,7 +46,7 @@ const FollowButton = ({
       setFollowerCount(followerCount - 1);
 
       // Call the API to unfollow the user
-      await unfollowUser(parsedAuthUserId, parsedAccountId);
+      await unfollowUser(parsedAuthUserId, parsedAccountId, pathName);
     } catch (error) {
       console.error('Error unfollowing user:', error);
       // Handle error (display a message, etc.)

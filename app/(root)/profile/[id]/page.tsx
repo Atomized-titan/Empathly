@@ -16,8 +16,6 @@ export async function Page({ params }: { params: { id: string } }) {
 
   const authUserInfo = await fetchUser(user.id);
 
-  console.log({ userInfo, authUserInfo });
-
   if (!userInfo?.onboarded) redirect('/onboarding');
 
   const isFollowing = userInfo.followers.some(
@@ -28,6 +26,9 @@ export async function Page({ params }: { params: { id: string } }) {
 
   const followingCount = userInfo.following.length;
 
+  const doesAccountFollowAuthUser = authUserInfo.followers.some(
+    (followedAccount: { id: string }) => followedAccount.id === userInfo.id
+  );
   return (
     <>
       <section>
@@ -44,6 +45,7 @@ export async function Page({ params }: { params: { id: string } }) {
           isFollowing={isFollowing}
           followersCount={followersCount}
           followingCount={followingCount}
+          doesAccountFollowAuthUser={doesAccountFollowAuthUser}
         />
 
         <div className='mt-9'>

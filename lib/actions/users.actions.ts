@@ -110,7 +110,11 @@ export async function fetchUserPosts(userId: string) {
   }
 }
 
-export async function followUser(userId: string, targetUserId: string) {
+export async function followUser(
+  userId: string,
+  targetUserId: string,
+  path: string
+) {
   try {
     connectToDatabase();
 
@@ -122,13 +126,19 @@ export async function followUser(userId: string, targetUserId: string) {
       $addToSet: { followers: userId },
     });
 
+    revalidatePath(path);
+
     return;
   } catch (error: any) {
     throw new Error(`Failed to follow user: ${error.message}`);
   }
 }
 
-export async function unfollowUser(userId: string, targetUserId: string) {
+export async function unfollowUser(
+  userId: string,
+  targetUserId: string,
+  path: string
+) {
   try {
     connectToDatabase();
 
@@ -140,6 +150,7 @@ export async function unfollowUser(userId: string, targetUserId: string) {
       $pull: { followers: userId },
     });
 
+    revalidatePath(path);
     return;
   } catch (error: any) {
     throw new Error(`Failed to unfollow user: ${error.message}`);

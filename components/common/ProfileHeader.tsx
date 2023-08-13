@@ -28,6 +28,7 @@ interface Props {
   isFollowing: boolean;
   followersCount: number;
   followingCount: number;
+  doesAccountFollowAuthUser: boolean;
 }
 
 function ProfileHeader({
@@ -45,6 +46,7 @@ function ProfileHeader({
   isFollowing,
   followersCount,
   followingCount,
+  doesAccountFollowAuthUser,
 }: Props) {
   return (
     <div className='flex w-full flex-col justify-start'>
@@ -72,7 +74,14 @@ function ProfileHeader({
             <h2 className='text-left text-heading3-bold text-light-1'>
               {name}
             </h2>
-            <p className='text-base-medium text-gray-1'>@{username}</p>
+            <div className='flex items-center gap-2'>
+              <p className='text-base-medium text-gray-1'>@{username}</p>
+              {doesAccountFollowAuthUser ? (
+                <p className='text-subtle-medium text-gray-1 px-2 py-1 bg-dark-4 rounded-lg'>
+                  Follows you
+                </p>
+              ) : null}
+            </div>
           </div>
         </div>
         {accountId === authUserId && type !== 'Community' ? (
