@@ -50,3 +50,44 @@ export async function createFeeling({
     throw new Error(`Failed to create feeling: ${error.message}`);
   }
 }
+
+export async function fetchFeelings(pageNumber = 1, pageSize = 20) {
+  try {
+    connectToDatabase();
+
+    // number of posts to skip depending on which page we're on
+    const skipAmount = (pageNumber - 1) * pageSize;
+
+    // Construct a MongoDB query to retrieve top-level feelings (posts)
+    const postsQuery = Feeling.find({
+      parentId: { $in: [null, undefined] }, // Find feelings without a parent (root feelings)
+    })
+      .sort({ createdAt: 'desc' }) // Sort the retrieved feelings by creation time in descending order
+      .skip(skipAmount) // Skip a specified number of feelings based on pagination
+      .limit(pageSize) // Limit the number of retrieved feelings per page
+      // Populate the retrieved feelings with additional data
+      .populate({
+        path: 'author', // Populate the 'author' field of each feeling
+        model: User, // Using the 'User' model to populate the 'author' field
+      })
+      .populate({
+        path: 'children', // Populate the 'children' array of each feeling
+        populate: {
+          path: 'author', // Populate the 'author' field of each child feeling
+          model: User, // Using the 'User' model to populate the 'author' field
+          select: '_id name parentId image', // Include only specific fields from the 'User' document
+        },
+      });
+
+    const totalPostsCount = await Feeling.countDocuments({
+      parentId: { $in: [null, undefined] },
+    });
+
+    const posts = await postsQuery.exec();
+
+    const isNext = totalPostsCount > posts.length + skipAmount;
+    return { posts, isNext };
+  } catch (error: any) {
+    throw new Error(`Failed to fetch feelings: ${error.message}`);
+  }
+}

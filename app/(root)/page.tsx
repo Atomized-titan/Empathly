@@ -1,3 +1,4 @@
+import { fetchFeelings } from '@/lib/actions/feeling.actions';
 import { fetchUser } from '@/lib/actions/users.actions';
 import { currentUser } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
@@ -8,6 +9,10 @@ async function Home() {
 
   const userInfo = await fetchUser(user.id);
   if (!userInfo?.onboarded) redirect('/onboarding');
+
+  const feelings = await fetchFeelings(1, 20);
+
+  console.log(feelings);
 
   return (
     <main>
