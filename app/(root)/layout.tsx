@@ -8,6 +8,7 @@ import BottomBar from '@/components/common/BottomBar';
 import LeftSideBar from '@/components/common/LeftSideBar';
 import RightSideBar from '@/components/common/RightSideBar';
 import TopBar from '@/components/common/TopBar';
+import Providers from '@/components/common/Providers';
 
 const dmSans = DM_Sans({ subsets: ['latin'] });
 
@@ -26,15 +27,17 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang='en'>
         <body className={dmSans.className}>
-          <TopBar />
-          <main className='flex flex-row'>
-            <LeftSideBar />
-            <section className='main-container'>
-              <div className='w-full max-w-4xl'>{children}</div>
-            </section>
-            <RightSideBar />
-          </main>
-          <BottomBar />
+          <Providers>
+            <TopBar />
+            <main className='flex flex-row'>
+              <LeftSideBar />
+              <section className='main-container'>
+                <div className='w-full max-w-4xl'>{children}</div>
+              </section>
+              <RightSideBar />
+            </main>
+            <BottomBar />
+          </Providers>
         </body>
       </html>
     </ClerkProvider>
