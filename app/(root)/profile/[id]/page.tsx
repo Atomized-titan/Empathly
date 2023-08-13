@@ -3,12 +3,10 @@ import { redirect } from 'next/navigation';
 
 import { fetchUser } from '@/lib/actions/users.actions';
 
-import PostFeeling from '@/components/forms/PostFeeling';
+import FeelingsTab from '@/components/common/FeelingsTab';
 import ProfileHeader from '@/components/common/ProfileHeader';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { profileTabs } from '@/constants';
-import Image from 'next/image';
-import FeelingsTab from '@/components/common/FeelingsTab';
 
 export async function Page({ params }: { params: { id: string } }) {
   const user = await currentUser();
@@ -16,19 +14,36 @@ export async function Page({ params }: { params: { id: string } }) {
 
   const userInfo = await fetchUser(params.id);
 
+  const authUserInfo = await fetchUser(user.id);
+
+  console.log({ userInfo, authUserInfo });
+
   if (!userInfo?.onboarded) redirect('/onboarding');
+
+  const isFollowing = userInfo.followers.some(
+    (follower: { id: string }) => follower.id === user.id
+  );
+
+  const followersCount = userInfo.followers.length;
+
+  const followingCount = userInfo.following.length;
 
   return (
     <>
       <section>
         <ProfileHeader
           accountId={userInfo.id}
+          accountObjectId={userInfo._id}
           authUserId={user.id}
+          authUserObjectId={authUserInfo._id}
           name={userInfo.name}
           username={userInfo.username}
           imgUrl={userInfo.image}
           bio={userInfo.bio}
           createdAt={user.createdAt}
+          isFollowing={isFollowing}
+          followersCount={followersCount}
+          followingCount={followingCount}
         />
 
         <div className='mt-9'>

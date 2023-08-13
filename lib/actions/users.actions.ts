@@ -11,10 +11,19 @@ export async function fetchUser(userId: string) {
   try {
     connectToDatabase();
 
-    return await User.findOne({ id: userId }).populate({
-      path: 'communities',
-      model: Community,
-    });
+    return await User.findOne({ id: userId })
+      .populate({
+        path: 'communities',
+        model: Community,
+      })
+      .populate({
+        path: 'followers',
+        model: User,
+      })
+      .populate({
+        path: 'following',
+        model: User,
+      });
   } catch (error: any) {
     throw new Error(`Failed to fetch user: ${error.message}`);
   }
@@ -98,5 +107,41 @@ export async function fetchUserPosts(userId: string) {
   } catch (error) {
     console.error('Error fetching user feelings:', error);
     throw error;
+  }
+}
+
+export async function followUser(userId: string, targetUserId: string) {
+  try {
+    connectToDatabase();
+
+    await User.findByIdAndUpdate(userId, {
+      $addToSet: { following: targetUserId },
+    });
+
+    await User.findByIdAndUpdate(targetUserId, {
+      $addToSet: { followers: userId },
+    });
+
+    return;
+  } catch (error: any) {
+    throw new Error(`Failed to follow user: ${error.message}`);
+  }
+}
+
+export async function unfollowUser(userId: string, targetUserId: string) {
+  try {
+    connectToDatabase();
+
+    await User.findByIdAndUpdate(userId, {
+      $pull: { following: targetUserId },
+    });
+
+    await User.findByIdAndUpdate(targetUserId, {
+      $pull: { followers: userId },
+    });
+
+    return;
+  } catch (error: any) {
+    throw new Error(`Failed to unfollow user: ${error.message}`);
   }
 }

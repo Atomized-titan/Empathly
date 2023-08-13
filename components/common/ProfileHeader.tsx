@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
 import {
@@ -6,12 +8,16 @@ import {
   LinkIcon,
   MapPinIcon,
   PencilIcon,
+  PlusIcon,
 } from '@heroicons/react/24/outline';
 import { Button } from '../ui/button';
+import FollowButton from './FollowButton';
 
 interface Props {
   accountId: string;
+  accountObjectId: string;
   authUserId: string;
+  authUserObjectId: string;
   name: string;
   username: string;
   imgUrl: string;
@@ -19,11 +25,16 @@ interface Props {
   bio: string;
   type?: string;
   createdAt: number;
+  isFollowing: boolean;
+  followersCount: number;
+  followingCount: number;
 }
 
 function ProfileHeader({
   accountId,
+  accountObjectId,
   authUserId,
+  authUserObjectId,
   name,
   username,
   imgUrl,
@@ -31,6 +42,9 @@ function ProfileHeader({
   coverImgUrl,
   createdAt,
   type,
+  isFollowing,
+  followersCount,
+  followingCount,
 }: Props) {
   return (
     <div className='flex w-full flex-col justify-start'>
@@ -61,13 +75,20 @@ function ProfileHeader({
             <p className='text-base-medium text-gray-1'>@{username}</p>
           </div>
         </div>
-        {accountId === authUserId && type !== 'Community' && (
+        {accountId === authUserId && type !== 'Community' ? (
           <Link href='/profile/edit'>
             <Button className='flex cursor-pointer gap-3 items-center rounded-lg bg-dark-3 px-4 py-2'>
               <PencilIcon className='w-4 h-4 text-light-1' />
               <p className='text-light-2 max-sm:hidden'>Edit</p>
             </Button>
           </Link>
+        ) : (
+          <FollowButton
+            accountId={JSON.stringify(accountObjectId)}
+            authUserId={JSON.stringify(authUserObjectId)}
+            followersCount={followersCount}
+            isFollowing={isFollowing}
+          />
         )}
       </div>
       {/* BIO SECTION */}
@@ -106,6 +127,16 @@ function ProfileHeader({
           <div className='text-base-regular text-dark-5 flex items-center gap-2'>
             <CalendarIcon className='w-5 h-5' />{' '}
             <span>Joined {new Date(createdAt).toDateString()}</span>
+          </div>
+
+          {/* // count of followers and following */}
+          <div>
+            <p className='text-base-medium mb-2 flex items-center gap-2'>
+              <span>Followers: {followersCount}</span>
+            </p>
+            <p className='text-base-medium mb-2 flex items-center gap-2'>
+              <span>Following: {followingCount}</span>
+            </p>
           </div>
         </div>
       </div>

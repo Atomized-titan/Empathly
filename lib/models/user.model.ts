@@ -37,6 +37,8 @@ const userSchema = new mongoose.Schema({
       ref: 'Community',
     },
   ],
+  followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
 });
 
 const User = mongoose.models.User || mongoose.model('User', userSchema);
