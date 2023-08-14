@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     abstract: `This is the profile of ${userInfo?.name} (@${userInfo?.username})`,
   };
 }
-export async function Page({ params }: { params: { id: string } }) {
+async function Page({ params }: { params: { id: string } }) {
   const user = await currentUser();
   if (!user) return null;
 
