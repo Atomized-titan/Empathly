@@ -1,11 +1,10 @@
 'use client';
 
-import Image from 'next/image';
+import { SearchIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import { Input } from '../ui/input';
-import { SearchIcon } from 'lucide-react';
 
 interface Props {
   routeType: string;

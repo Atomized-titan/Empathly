@@ -1,5 +1,20 @@
 'use client';
 
+import { PhotoIcon } from '@heroicons/react/24/outline';
+import { ArrowPathIcon } from '@heroicons/react/24/solid';
+import { zodResolver } from '@hookform/resolvers/zod';
+import Image from 'next/image';
+import { usePathname, useRouter } from 'next/navigation';
+import { ChangeEvent, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { animated, config, useSpring } from 'react-spring';
+import * as z from 'zod';
+
+import { updateUser } from '@/lib/actions/users.action';
+import { useUploadThing } from '@/lib/uploadthing.';
+import { isBase64Image } from '@/lib/utils';
+import { Gender, UserValidation } from '@/lib/validations/user';
+
 import {
   Form,
   FormControl,
@@ -9,17 +24,11 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Gender, UserValidation } from '@/lib/validations/user';
-import { PhotoIcon } from '@heroicons/react/24/outline';
-import { zodResolver } from '@hookform/resolvers/zod';
-import Image from 'next/image';
-import { useForm } from 'react-hook-form';
-import { animated, config, useSpring } from 'react-spring';
-import * as z from 'zod';
+
+import Asterisk from '../common/Asterisk';
 import { Button } from '../ui/button';
+import { Checkbox } from '../ui/checkbox';
 import { Input } from '../ui/input';
-import { Textarea } from '../ui/textarea';
-import { ChangeEvent, useState } from 'react';
 import {
   Select,
   SelectContent,
@@ -29,13 +38,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../ui/select';
-import Asterisk from '../common/Asterisk';
-import { Checkbox } from '../ui/checkbox';
-import { isBase64Image } from '@/lib/utils';
-import { useUploadThing } from '@/lib/uploadthing.';
-import { updateUser } from '@/lib/actions/users.action';
-import { usePathname, useRouter } from 'next/navigation';
-import { ArrowPathIcon } from '@heroicons/react/24/solid';
+import { Textarea } from '../ui/textarea';
 
 interface HeadingProps {
   user: {
@@ -224,7 +227,7 @@ const AccountProfile = ({ user, btnTitle }: HeadingProps) => {
               <FormMessage />
               <FormDescription className='!text-[14px] font-medium text-dark-5'>
                 Pick a display name that will be your unique username for
-                logging in. Use your real name or a pseudonym—it's up to you.
+                logging in. Use your real name or a pseudonym—it’s up to you.
               </FormDescription>
             </FormItem>
           )}
@@ -257,7 +260,7 @@ const AccountProfile = ({ user, btnTitle }: HeadingProps) => {
                 </Select>
               </FormControl>
               <FormDescription className='!text-[14px] font-medium text-dark-5'>
-                Choose your gender. It's optional and helps us improve your
+                Choose your gender. It’s optional and helps us improve your
                 experience on the platform. Your selection is private.
               </FormDescription>
             </FormItem>

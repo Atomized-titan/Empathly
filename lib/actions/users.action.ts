@@ -1,16 +1,17 @@
 'use server';
 
+import { FilterQuery, SortOrder } from 'mongoose';
 import { revalidatePath } from 'next/cache';
+
+import Community from '../models/community.model';
+import Feeling from '../models/feeling.model';
 import User from '../models/user.model';
 import { connectToDatabase } from '../mongoose';
 import { Gender } from '../validations/user';
-import Community from '../models/community.model';
-import Feeling from '../models/feeling.model';
-import { FilterQuery, SortOrder } from 'mongoose';
 
 export async function fetchUser(userId: string) {
   try {
-    connectToDatabase();
+    await connectToDatabase();
 
     return await User.findOne({ id: userId })
       .populate({
@@ -48,7 +49,7 @@ export async function updateUser({
   gender,
   path,
 }: UserValidationProps): Promise<void> {
-  connectToDatabase();
+  await connectToDatabase();
   try {
     console.log('Updating user:', userId);
 
@@ -81,7 +82,7 @@ export async function updateUser({
 
 export async function fetchUserPosts(userId: string) {
   try {
-    connectToDatabase();
+    await connectToDatabase();
 
     // Find all feelings authored by the user with the given userId
     const feelings = await User.findOne({ id: userId }).populate({
@@ -125,7 +126,7 @@ export async function fetchUsers({
   sortBy?: SortOrder;
 }) {
   try {
-    connectToDatabase();
+    await connectToDatabase();
 
     // Calculate the number of users to skip based on the page number and page size.
     const skipAmount = (pageNumber - 1) * pageSize;
@@ -175,7 +176,7 @@ export async function followUser(
   path: string
 ) {
   try {
-    connectToDatabase();
+    await connectToDatabase();
 
     await User.findByIdAndUpdate(userId, {
       $addToSet: { following: targetUserId },
@@ -199,7 +200,7 @@ export async function unfollowUser(
   path: string
 ) {
   try {
-    connectToDatabase();
+    await connectToDatabase();
 
     await User.findByIdAndUpdate(userId, {
       $pull: { following: targetUserId },

@@ -1,11 +1,12 @@
 'use server';
 
+import { startSession } from 'mongoose';
 import { revalidatePath } from 'next/cache';
+
 import Community from '../models/community.model';
 import Feeling from '../models/feeling.model';
 import User from '../models/user.model';
 import { connectToDatabase } from '../mongoose';
-import { startSession } from 'mongoose';
 
 interface Params {
   text: string;
@@ -23,7 +24,7 @@ export async function createFeeling({
   path,
 }: Params) {
   try {
-    connectToDatabase();
+    await connectToDatabase();
 
     const communityIdObject = await Community.findOne(
       { id: communityId },
@@ -57,7 +58,7 @@ export async function createFeeling({
 
 export async function fetchFeelings(pageNumber = 1, pageSize = 20) {
   try {
-    connectToDatabase();
+    await connectToDatabase();
 
     // number of posts to skip depending on which page we're on
     const skipAmount = (pageNumber - 1) * pageSize;
@@ -97,7 +98,7 @@ export async function fetchFeelings(pageNumber = 1, pageSize = 20) {
 }
 
 export async function fetchFeelingById(feelingId: string) {
-  connectToDatabase();
+  await connectToDatabase();
 
   try {
     const feeling = await Feeling.findById(feelingId)
@@ -145,7 +146,7 @@ export async function addCommentToFeeling(
   userId: string,
   path: string
 ) {
-  connectToDatabase();
+  await connectToDatabase();
 
   try {
     // Find the original feeling by its ID
@@ -180,7 +181,7 @@ export async function addCommentToFeeling(
 
 // Add a like to a feeling
 export async function likeFeeling(feelingId: string, userId: string) {
-  connectToDatabase();
+  await connectToDatabase();
 
   const session = await startSession();
   session.startTransaction();
@@ -214,7 +215,7 @@ export async function likeFeeling(feelingId: string, userId: string) {
 
 // Remove a like from a feeling
 export async function unlikeFeeling(feelingId: string, userId: string) {
-  connectToDatabase();
+  await connectToDatabase();
 
   const session = await startSession();
   session.startTransaction();

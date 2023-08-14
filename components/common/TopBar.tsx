@@ -1,8 +1,10 @@
-import { SignedIn, SignOutButton, OrganizationSwitcher } from '@clerk/nextjs';
+import { OrganizationSwitcher, SignedIn, SignOutButton } from '@clerk/nextjs';
 import { dark } from '@clerk/themes';
+import { ArrowLeftOnRectangleIcon } from '@heroicons/react/24/solid';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowLeftOnRectangleIcon } from '@heroicons/react/24/solid';
+
+import Searchbar from './Searchbar';
 
 const TopBar = () => {
   return (
@@ -22,6 +24,12 @@ const TopBar = () => {
         </p>
       </Link>
       <div className='flex items-center gap-1'>
+        <Link href={'/search'}>
+          <button className='relative'>
+            <Searchbar routeType='search' />
+            <div className='w-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2' />
+          </button>
+        </Link>
         <div className='block md:hidden'>
           <SignedIn>
             <SignOutButton>
