@@ -5,7 +5,7 @@ import { fetchUser } from '@/lib/actions/user.action';
 
 import PostFeeling from '@/components/forms/PostFeeling';
 
-export async function Home() {
+export async function CreatePage() {
   const user = await currentUser();
   if (!user) return null;
 
@@ -22,4 +22,4 @@ export async function Home() {
   );
 }
 
-export default Home;
+export default CreatePage;
