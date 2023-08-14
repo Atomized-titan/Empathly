@@ -7,7 +7,28 @@ import FeelingsTab from '@/components/common/FeelingsTab';
 import ProfileHeader from '@/components/common/ProfileHeader';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { profileTabs } from '@/constants';
+import { Metadata, ResolvingMetadata } from 'next';
 
+type Props = {
+  params: { id: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+};
+export async function generateMetadata(
+  { params, searchParams }: Props,
+  parent?: ResolvingMetadata
+): Promise<Metadata> {
+  // read route params
+  const id = params.id;
+
+  // fetch data
+  const userInfo = await fetchUser(params.id);
+
+  return {
+    title: `${userInfo?.name} (@${userInfo?.username})`,
+    description: userInfo?.bio ?? '',
+    abstract: `This is the profile of ${userInfo?.name} (@${userInfo?.username})`,
+  };
+}
 export async function Page({ params }: { params: { id: string } }) {
   const user = await currentUser();
   if (!user) return null;

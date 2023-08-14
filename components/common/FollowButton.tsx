@@ -3,6 +3,7 @@ import { PlusIcon } from '@heroicons/react/24/outline';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { Button } from '../ui/button';
+import { useHover } from '@uidotdev/usehooks';
 
 interface Props {
   accountId: string;
@@ -22,6 +23,8 @@ const FollowButton = ({
   const pathName = usePathname();
   const parsedAccountId = JSON.parse(accountId);
   const parsedAuthUserId = JSON.parse(authUserId);
+
+  const [ref, hovering] = useHover<HTMLButtonElement>();
 
   const handleFollow = async () => {
     try {
@@ -64,6 +67,7 @@ const FollowButton = ({
           await handleFollow();
         }
       }}
+      ref={ref}
       className={`${
         isUserFollowing
           ? 'bg-dark-3 hover:bg-dark-4'
@@ -72,8 +76,15 @@ const FollowButton = ({
     >
       <div className='flex items-center gap-2'>
         {isUserFollowing ? null : <PlusIcon className='w-5 h-5 text-dark-3' />}
-        <span className={`${isUserFollowing ? 'text-light-1' : 'text-dark-3'}`}>
-          {isUserFollowing ? 'Following' : 'Follow'}
+        <span
+          className={`${
+            isUserFollowing ? 'text-light-1' : 'text-dark-3'
+          } transition-colors ease-in-out duration-300`}
+          style={{
+            color: isUserFollowing && hovering ? 'red' : '',
+          }}
+        >
+          {!isUserFollowing ? 'Follow' : hovering ? 'Unfollow' : 'Following'}
         </span>
       </div>
     </Button>
