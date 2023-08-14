@@ -23,16 +23,12 @@ const LeftSideBar = () => {
     width: isSidebarOpen ? 250 : 107, // Adjust the widths as needed
   });
 
-  const toggleSidebar = () => {
-    setSidebarOpen(!isSidebarOpen);
-  };
-
   return (
     <animated.section
       className='custom-scrollbar leftsidebar'
       style={sidebarAnimation}
-      onMouseEnter={toggleSidebar} // Open sidebar on hover
-      onMouseLeave={toggleSidebar} // Close sidebar when leaving
+      onMouseEnter={() => setSidebarOpen(true)} // Open sidebar on hover
+      onMouseLeave={() => setSidebarOpen(false)} // Close sidebar when leaving
     >
       <div className='flex w-full flex-1 flex-col gap-6 px-6'>
         {sidebarLinks.map((link) => {

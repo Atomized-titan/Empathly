@@ -5,8 +5,13 @@ import { fetchFeelings } from '@/lib/actions/feeling.action';
 import { fetchUser } from '@/lib/actions/users.action';
 
 import FeelingCard from '@/components/cards/FeelingCard';
+import Pagination from '@/components/common/Pagination';
 
-async function Home() {
+async function Home({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | undefined };
+}) {
   const user = await currentUser();
   if (!user) return null;
 
@@ -42,6 +47,12 @@ async function Home() {
           </>
         )}
       </section>
+
+      <Pagination
+        path='/'
+        pageNumber={searchParams?.page ? +searchParams.page : 1}
+        isNext={feelings.isNext}
+      />
     </main>
   );
 }
