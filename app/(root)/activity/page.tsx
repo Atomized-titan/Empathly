@@ -17,50 +17,57 @@ const PageActivityPage = async () => {
   const activity = await getActivity(userInfo._id);
 
   return (
-    <section className='mt-10 flex flex-col gap-5'>
-      {activity.length > 0 ? (
-        <>
-          {activity.map((activity) => (
-            <Link key={activity._id} href={`/feeling/${activity.parentId.id}`}>
-              <article className='activity-card'>
-                <div className='flex items-center gap-3'>
-                  <Image
-                    src={activity.author.image}
-                    alt='user_logo'
-                    width={40}
-                    height={40}
-                    className='rounded-full object-cover'
-                  />
-                  <div className='flex flex-col gap-2'>
-                    <p className='!text-base-regular text-dark-5'>
-                      <span className='mr-1 text-primary'>
-                        {activity.author.name}
-                      </span>{' '}
-                      <span>replied to your feeling</span>
-                    </p>
-                    <p className='!text-base-regular text-light-1'>
-                      {activity.text}
-                    </p>
-                    <p className='!text-small-regular text-dark-5'>
-                      {formatDateStringForMobile(activity.createdAt)}
-                    </p>
+    <>
+      <h1 className='head-text'>Activity</h1>
+
+      <section className='mt-10 flex flex-col gap-5'>
+        {activity.length > 0 ? (
+          <>
+            {activity.map((activity) => (
+              <Link
+                key={activity._id}
+                href={`/feeling/${activity.parentId.id}`}
+              >
+                <article className='activity-card'>
+                  <div className='flex items-center gap-3'>
+                    <Image
+                      src={activity.author.image}
+                      alt='user_logo'
+                      width={40}
+                      height={40}
+                      className='rounded-full object-cover'
+                    />
+                    <div className='flex flex-col gap-2'>
+                      <p className='!text-base-regular text-dark-5'>
+                        <span className='mr-1 text-primary'>
+                          {activity.author.name}
+                        </span>{' '}
+                        <span>replied to your feeling</span>
+                      </p>
+                      <p className='!text-base-regular text-light-1'>
+                        {activity.text}
+                      </p>
+                      <p className='!text-small-regular text-dark-5'>
+                        {formatDateStringForMobile(activity.createdAt)}
+                      </p>
+                    </div>
                   </div>
-                </div>
-                <Image
-                  src={activity.parentId.image}
-                  alt='user_logo'
-                  width={150}
-                  height={150}
-                  className='rounded-xl object-cover'
-                />
-              </article>
-            </Link>
-          ))}
-        </>
-      ) : (
-        <p className='!text-base-regular text-light-3'>No activity yet</p>
-      )}
-    </section>
+                  <Image
+                    src={activity.parentId.image}
+                    alt='user_logo'
+                    width={150}
+                    height={150}
+                    className='rounded-xl object-cover'
+                  />
+                </article>
+              </Link>
+            ))}
+          </>
+        ) : (
+          <p className='!text-base-regular text-light-3'>No activity yet</p>
+        )}
+      </section>
+    </>
   );
 };
 
