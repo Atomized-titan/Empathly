@@ -1,58 +1,32 @@
 'use client';
 
-import React from 'react';
+import { useOrganization } from '@clerk/nextjs';
+import { PhotoIcon } from '@heroicons/react/24/outline';
+import { ArrowPathIcon } from '@heroicons/react/24/solid';
+import { zodResolver } from '@hookform/resolvers/zod';
+import Image from 'next/image';
+import { usePathname, useRouter } from 'next/navigation';
+import { ChangeEvent, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { animated, config, useSpring } from 'react-spring';
+import * as z from 'zod';
+
+import { createFeeling } from '@/lib/actions/feeling.action';
+import { useUploadThing } from '@/lib/uploadthing.';
+import { isBase64Image } from '@/lib/utils';
+import { FeelingValidation } from '@/lib/validations/feeling';
+
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Gender, UserValidation } from '@/lib/validations/user';
-import { PhotoIcon } from '@heroicons/react/24/outline';
-import { zodResolver } from '@hookform/resolvers/zod';
-import Image from 'next/image';
-import { useForm } from 'react-hook-form';
-import { animated, config, useSpring } from 'react-spring';
-import * as z from 'zod';
-import { Button } from '../ui/button';
-import { Input } from '../ui/input';
-import { Textarea } from '../ui/textarea';
-import { ChangeEvent, useState } from 'react';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from '../ui/select';
-import Asterisk from '../common/Asterisk';
-import { Checkbox } from '../ui/checkbox';
-import { isBase64Image } from '@/lib/utils';
-import { useUploadThing } from '@/lib/uploadthing.';
-import { updateUser } from '@/lib/actions/user.action';
-import { usePathname, useRouter } from 'next/navigation';
-import { ArrowPathIcon } from '@heroicons/react/24/solid';
-import { FeelingValidation } from '@/lib/validations/feeling';
-import { createFeeling } from '@/lib/actions/feeling.action';
-import { useOrganization } from '@clerk/nextjs';
 
-interface HeadingProps {
-  user: {
-    id: string;
-    objectId: string;
-    name: string;
-    username: string;
-    image: string;
-    bio: string;
-    gender: Gender;
-  };
-  btnTitle: string;
-}
+import { Button } from '../ui/button';
+import { Textarea } from '../ui/textarea';
 
 const PostFeeling = ({ userId }: { userId: string }) => {
   const [files, setFiles] = useState<File[]>([]);
