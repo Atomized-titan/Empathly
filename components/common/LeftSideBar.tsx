@@ -1,12 +1,13 @@
 'use client';
 
-import { sidebarLinks } from '@/constants';
-import { SignOutButton, SignedIn, useAuth } from '@clerk/nextjs';
-import Link from 'next/link';
-import { useRouter, usePathname } from 'next/navigation';
-import React, { useState } from 'react';
+import { SignedIn, SignOutButton, useAuth } from '@clerk/nextjs';
 import { ArrowLeftOnRectangleIcon } from '@heroicons/react/24/solid';
-import { useSpring, animated } from 'react-spring';
+import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { animated, useSpring } from 'react-spring';
+
+import { sidebarLinks } from '@/constants';
 
 const LeftSideBar = () => {
   const router = useRouter();
@@ -49,8 +50,10 @@ const LeftSideBar = () => {
                 isActive ? 'bg-primary' : 'hover:text-primary'
               }`}
             >
-              <link.icon className='w-6 h-6' />
-              {isSidebarOpen && <span>{link.label}</span>}
+              <div className='min-w-[24px]'>
+                <link.icon className='w-6 h-6' />
+              </div>
+              {isSidebarOpen && <span className='flex-1'>{link.label}</span>}
             </Link>
           );
         })}

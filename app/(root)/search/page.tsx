@@ -1,11 +1,10 @@
-import { redirect } from 'next/navigation';
 import { currentUser } from '@clerk/nextjs';
-
-import UserCard from '@/components/cards/UserCard';
-
-import Pagination from '@/components/common/Pagination';
+import { redirect } from 'next/navigation';
 
 import { fetchUser, fetchUsers } from '@/lib/actions/users.action';
+
+import UserCard from '@/components/cards/UserCard';
+import Pagination from '@/components/common/Pagination';
 import Searchbar from '@/components/common/Searchbar';
 
 async function Page({

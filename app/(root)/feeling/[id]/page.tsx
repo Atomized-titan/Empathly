@@ -46,6 +46,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
       </div>
 
       <div className='mt-10'>
+        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
         {feeling.children.map((childItem: any) => (
           <FeelingCard
             likes={childItem.likes}

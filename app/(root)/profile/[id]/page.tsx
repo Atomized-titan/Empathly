@@ -1,4 +1,5 @@
 import { currentUser } from '@clerk/nextjs';
+import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 
 import { fetchUser } from '@/lib/actions/users.action';
@@ -6,19 +7,16 @@ import { fetchUser } from '@/lib/actions/users.action';
 import FeelingsTab from '@/components/common/FeelingsTab';
 import ProfileHeader from '@/components/common/ProfileHeader';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
 import { profileTabs } from '@/constants';
-import { Metadata, ResolvingMetadata } from 'next';
 
 type Props = {
   params: { id: string };
   searchParams: { [key: string]: string | string[] | undefined };
 };
-export async function generateMetadata(
-  { params, searchParams }: Props,
-  parent?: ResolvingMetadata
-): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   // read route params
-  const id = params.id;
+  // const id = params.id;
 
   // fetch data
   const userInfo = await fetchUser(params.id);
@@ -91,7 +89,6 @@ export async function Page({ params }: { params: { id: string } }) {
                 value={tab.value}
                 className='w-full text-light-1'
               >
-                {/* @ts-ignore */}
                 <FeelingsTab
                   currentUserId={user.id}
                   currentUserObjectId={userInfo._id}

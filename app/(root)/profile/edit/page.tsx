@@ -2,6 +2,7 @@ import { currentUser } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
 
 import { fetchUser } from '@/lib/actions/users.action';
+
 import AccountProfile from '@/components/forms/AccountProfile';
 
 // Copy paste most of the code as it is from the /onboarding

@@ -6,9 +6,9 @@ import '../globals.css';
 
 import BottomBar from '@/components/common/BottomBar';
 import LeftSideBar from '@/components/common/LeftSideBar';
+import Providers from '@/components/common/Providers';
 import RightSideBar from '@/components/common/RightSideBar';
 import TopBar from '@/components/common/TopBar';
-import Providers from '@/components/common/Providers';
 
 const dmSans = DM_Sans({ subsets: ['latin'] });
 

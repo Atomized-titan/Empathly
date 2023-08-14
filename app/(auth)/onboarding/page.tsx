@@ -22,6 +22,7 @@ async function Page() {
     bio: userInfo?.bio || '',
     image: userInfo?.image || user.imageUrl,
     gender: userInfo?.gender || user.gender,
+    termsAccepted: userInfo?.termsAccepted || false,
   };
 
   return (
