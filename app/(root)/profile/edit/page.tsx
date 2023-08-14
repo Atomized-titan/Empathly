@@ -5,8 +5,6 @@ import { fetchUser } from '@/lib/actions/user.action';
 
 import AccountProfile from '@/components/forms/AccountProfile';
 
-// Copy paste most of the code as it is from the /onboarding
-
 async function Page() {
   const user = await currentUser();
   if (!user) return null;

@@ -4,8 +4,7 @@ import { redirect } from 'next/navigation';
 import { fetchUser } from '@/lib/actions/user.action';
 
 import PostFeeling from '@/components/forms/PostFeeling';
-
-export async function Page() {
+async function Page() {
   const user = await currentUser();
   if (!user) return null;
 
