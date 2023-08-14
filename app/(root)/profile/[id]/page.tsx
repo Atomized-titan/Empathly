@@ -2,7 +2,7 @@ import { currentUser } from '@clerk/nextjs';
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 
-import { fetchUser } from '@/lib/actions/users.action';
+import { fetchUser } from '@/lib/actions/user.action';
 
 import FeelingsTab from '@/components/common/FeelingsTab';
 import ProfileHeader from '@/components/common/ProfileHeader';

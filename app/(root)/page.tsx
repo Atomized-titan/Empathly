@@ -2,7 +2,7 @@ import { currentUser } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
 
 import { fetchFeelings } from '@/lib/actions/feeling.action';
-import { fetchUser } from '@/lib/actions/users.action';
+import { fetchUser } from '@/lib/actions/user.action';
 
 import FeelingCard from '@/components/cards/FeelingCard';
 import Pagination from '@/components/common/Pagination';

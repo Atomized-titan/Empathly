@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form';
 import { animated, config, useSpring } from 'react-spring';
 import * as z from 'zod';
 
-import { updateUser } from '@/lib/actions/users.action';
+import { updateUser } from '@/lib/actions/user.action';
 import { useUploadThing } from '@/lib/uploadthing.';
 import { isBase64Image } from '@/lib/utils';
 import { Gender, UserValidation } from '@/lib/validations/user';

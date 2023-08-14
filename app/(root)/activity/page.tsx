@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import React from 'react';
 
-import { fetchUser, getActivity } from '@/lib/actions/users.action';
+import { fetchUser, getActivity } from '@/lib/actions/user.action';
 import { formatDateStringForMobile } from '@/lib/utils';
 
 const PageActivityPage = async () => {

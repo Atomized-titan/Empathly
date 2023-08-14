@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 
-import { fetchUserPosts } from '@/lib/actions/users.action';
+import { fetchUserPosts } from '@/lib/actions/user.action';
 
 import FeelingCard from '../cards/FeelingCard';
 
