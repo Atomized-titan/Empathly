@@ -29,6 +29,9 @@ const FeelingOptions = ({
 }: Props) => {
   const router = useRouter();
   const pathname = usePathname();
+
+  if (currentUserId !== authorId || pathname === '/') return null;
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
