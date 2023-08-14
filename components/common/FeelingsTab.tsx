@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation';
 
+import { fetchCommunityPosts } from '@/lib/actions/community.action';
 import { fetchUserPosts } from '@/lib/actions/user.action';
 
 import FeelingCard from '../cards/FeelingCard';
@@ -48,11 +49,11 @@ async function FeelingsTab({
 }: Props) {
   let result: Result;
 
-  //   if (accountType === "Community") {
-  //     result = await fetchCommunityPosts(accountId);
-  //   } else {
-  result = await fetchUserPosts(accountId);
-  //   }
+  if (accountType === 'Community') {
+    result = await fetchCommunityPosts(accountId);
+  } else {
+    result = await fetchUserPosts(accountId);
+  }
 
   if (!result) {
     redirect('/');
