@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { HeartIcon } from '@heroicons/react/24/outline';
-import { likeFeeling, unlikeFeeling } from '@/lib/actions/feeling.actions';
+import { likeFeeling, unlikeFeeling } from '@/lib/actions/feeling.action';
 
 interface Props {
   id: string;

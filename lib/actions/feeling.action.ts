@@ -5,6 +5,7 @@ import Community from '../models/community.model';
 import Feeling from '../models/feeling.model';
 import User from '../models/user.model';
 import { connectToDatabase } from '../mongoose';
+import { startSession } from 'mongoose';
 
 interface Params {
   text: string;
@@ -181,33 +182,32 @@ export async function addCommentToFeeling(
 export async function likeFeeling(feelingId: string, userId: string) {
   connectToDatabase();
 
+  const session = await startSession();
+  session.startTransaction();
+
   try {
-    // Find the feeling by its ID
-    const feeling = await Feeling.findById(feelingId);
+    const feeling = await Feeling.findById(feelingId).session(session);
 
     if (!feeling) {
       throw new Error('Feeling not found');
     }
 
-    console.log('Existing likes:', feeling.likes);
-
-    // Check if the user has already liked the feeling
     if (feeling.likes.includes(userId)) {
-      console.log('User has already liked this feeling');
       throw new Error('User has already liked this feeling');
     }
 
-    console.log('Adding like for user:', userId);
-
-    // Add the user's ID to the likes array
     feeling.likes.push(userId);
 
-    // Save the updated feeling
     await feeling.save();
+
+    await session.commitTransaction();
+    session.endSession();
 
     console.log('Feeling after like:', feeling);
   } catch (err) {
     console.error('Error while liking feeling:', err);
+    await session.abortTransaction();
+    session.endSession();
     throw new Error('Unable to like feeling');
   }
 }
@@ -216,29 +216,30 @@ export async function likeFeeling(feelingId: string, userId: string) {
 export async function unlikeFeeling(feelingId: string, userId: string) {
   connectToDatabase();
 
+  const session = await startSession();
+  session.startTransaction();
+
   try {
-    // Find the feeling by its ID
-    const feeling = await Feeling.findById(feelingId);
+    const feeling = await Feeling.findById(feelingId).session(session);
 
     if (!feeling) {
       throw new Error('Feeling not found');
     }
 
-    console.log('Existing likes:', feeling.likes);
-
-    // Remove the user's ID from the likes array
     feeling.likes = feeling.likes.filter(
       (likeUserId: string) => likeUserId.toString() !== userId
     );
 
-    console.log('Removing like for user:', userId);
-
-    // Save the updated feeling
     await feeling.save();
+
+    await session.commitTransaction();
+    session.endSession();
 
     console.log('Feeling after unlike:', feeling);
   } catch (err) {
     console.error('Error while unliking feeling:', err);
+    await session.abortTransaction();
+    session.endSession();
     throw new Error('Unable to unlike feeling');
   }
 }

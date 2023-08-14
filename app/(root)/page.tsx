@@ -1,8 +1,8 @@
 import { currentUser } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
 
-import { fetchFeelings } from '@/lib/actions/feeling.actions';
-import { fetchUser } from '@/lib/actions/users.actions';
+import { fetchFeelings } from '@/lib/actions/feeling.action';
+import { fetchUser } from '@/lib/actions/users.action';
 
 import FeelingCard from '@/components/cards/FeelingCard';
 

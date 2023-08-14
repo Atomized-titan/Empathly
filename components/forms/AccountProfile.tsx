@@ -33,7 +33,7 @@ import Asterisk from '../common/Asterisk';
 import { Checkbox } from '../ui/checkbox';
 import { isBase64Image } from '@/lib/utils';
 import { useUploadThing } from '@/lib/uploadthing.';
-import { updateUser } from '@/lib/actions/users.actions';
+import { updateUser } from '@/lib/actions/users.action';
 import { usePathname, useRouter } from 'next/navigation';
 import { ArrowPathIcon } from '@heroicons/react/24/solid';
 

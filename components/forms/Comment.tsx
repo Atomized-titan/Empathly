@@ -18,7 +18,7 @@ import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 
 import { CommentValidation } from '@/lib/validations/feeling';
-import { addCommentToFeeling } from '@/lib/actions/feeling.actions';
+import { addCommentToFeeling } from '@/lib/actions/feeling.action';
 import { ArrowPathIcon } from '@heroicons/react/24/solid';
 import { useState } from 'react';
 
