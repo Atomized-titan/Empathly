@@ -1,13 +1,15 @@
-import { formatDateString } from '@/lib/utils';
 import {
   BookmarkIcon,
   ChatBubbleBottomCenterIcon,
   ClockIcon,
   ShareIcon,
 } from '@heroicons/react/24/outline';
-import { EllipsisVerticalIcon } from '@heroicons/react/24/solid';
 import Image from 'next/image';
 import Link from 'next/link';
+
+import { formatDateString } from '@/lib/utils';
+
+import FeelingOptions from '../common/FeelingOptions';
 import LikeButton from '../common/LikeButton';
 import { Button } from '../ui/button';
 
@@ -46,7 +48,7 @@ const FeelingCard = ({
   content,
   image,
   author,
-  community,
+  // community,
   createdAt,
   likes,
   comments,
@@ -86,9 +88,13 @@ const FeelingCard = ({
           <Button variant='ghost' size='icon'>
             <BookmarkIcon className='w-6 h-6 text-light-1' />
           </Button>
-          <Button variant='ghost' size='icon'>
-            <EllipsisVerticalIcon className='w-6 h-6 text-light-1' />
-          </Button>
+          <FeelingOptions
+            feelingId={JSON.stringify(id)}
+            currentUserId={currentUserId}
+            authorId={author.id}
+            parentId={parentId}
+            isComment={isComment ?? false}
+          />
         </div>
       </div>
       <div className='text-light-2 bg-dark-3 p-4 rounded-xl'>

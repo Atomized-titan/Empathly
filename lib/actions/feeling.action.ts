@@ -97,6 +97,76 @@ export async function fetchFeelings(pageNumber = 1, pageSize = 20) {
   }
 }
 
+async function fetchAllChildfeelings(feelingId: string): Promise<any[]> {
+  const childfeelings = await Feeling.find({ parentId: feelingId });
+
+  const descendantFeelings = [];
+  for (const childFeeling of childfeelings) {
+    const descendants = await fetchAllChildfeelings(childFeeling._id);
+    descendantFeelings.push(childFeeling, ...descendants);
+  }
+
+  return descendantFeelings;
+}
+
+export async function deleteFeeling(id: string, path: string): Promise<void> {
+  try {
+    await connectToDatabase();
+
+    // Find the feeling to be deleted (the main feeling)
+    const mainFeeling = await Feeling.findById(id).populate('author community');
+
+    if (!mainFeeling) {
+      throw new Error('Feeling not found');
+    }
+
+    // Fetch all child feelings and their descendants recursively
+    const descendantFeelings = await fetchAllChildfeelings(id);
+
+    // Get all descendant feeling IDs including the main feeling ID and child feeling IDs
+    const descendantFeelingIds = [
+      id,
+      ...descendantFeelings.map((feeling) => feeling._id),
+    ];
+
+    // Extract the authorIds and communityIds to update User and Community models respectively
+    const uniqueAuthorIds = new Set(
+      [
+        ...descendantFeelings.map((feeling) => feeling.author?._id?.toString()), // Use optional chaining to handle possible undefined values
+        mainFeeling.author?._id?.toString(),
+      ].filter((id) => id !== undefined)
+    );
+
+    const uniqueCommunityIds = new Set(
+      [
+        ...descendantFeelings.map((feeling) =>
+          feeling.community?._id?.toString()
+        ), // Use optional chaining to handle possible undefined values
+        mainFeeling.community?._id?.toString(),
+      ].filter((id) => id !== undefined)
+    );
+
+    // Recursively delete child feelings and their descendants
+    await Feeling.deleteMany({ _id: { $in: descendantFeelingIds } });
+
+    // Update User model
+    await User.updateMany(
+      { _id: { $in: Array.from(uniqueAuthorIds) } },
+      { $pull: { feelings: { $in: descendantFeelingIds } } }
+    );
+
+    // Update Community model
+    await Community.updateMany(
+      { _id: { $in: Array.from(uniqueCommunityIds) } },
+      { $pull: { feelings: { $in: descendantFeelingIds } } }
+    );
+
+    revalidatePath(path);
+  } catch (error: any) {
+    throw new Error(`Failed to delete feeling: ${error.message}`);
+  }
+}
+
 export async function fetchFeelingById(feelingId: string) {
   await connectToDatabase();
 
