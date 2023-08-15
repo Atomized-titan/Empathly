@@ -19,7 +19,7 @@ async function Home({
   if (!userInfo?.onboarded) redirect('/onboarding');
 
   const feelings = await fetchFeelings(1, 20);
-  // console.log(feelings);
+  console.log(feelings);
   return (
     <main>
       <h1 className='head-text'>Home</h1>

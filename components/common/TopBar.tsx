@@ -4,8 +4,6 @@ import { ArrowLeftOnRectangleIcon } from '@heroicons/react/24/solid';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import Searchbar from './Searchbar';
-
 const TopBar = () => {
   return (
     <nav className='topbar'>
@@ -24,12 +22,12 @@ const TopBar = () => {
         </p>
       </Link>
       <div className='flex items-center gap-1'>
-        <Link href={'/search'}>
+        {/* <Link href={'/search'}>
           <button className='relative'>
             <Searchbar routeType='search' />
             <div className='w-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2' />
           </button>
-        </Link>
+        </Link> */}
         <div className='block md:hidden'>
           <SignedIn>
             <SignOutButton>

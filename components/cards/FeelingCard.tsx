@@ -48,7 +48,7 @@ const FeelingCard = ({
   content,
   image,
   author,
-  // community,
+  community,
   createdAt,
   likes,
   comments,
@@ -70,7 +70,7 @@ const FeelingCard = ({
               className='cursor-pointer rounded-full'
             />
           </Link>
-          <div className='flex flex-1 -mt-2 flex-col gap-1'>
+          <div className='flex flex-1 -mt-2 flex-col'>
             <Link href={`/profile/${author.id}`} className='cursor-pointer'>
               <Button variant='link' className='p-0'>
                 <h3 className='text-base-medium md:text-body-medium text-light-1'>
@@ -78,10 +78,31 @@ const FeelingCard = ({
                 </h3>
               </Button>
             </Link>
-            <p className='text-subtle-medium -mt-2 md:text-small-regular text-gray-400 flex items-center gap-1'>
-              <ClockIcon className='w-4 h-4 text-gray-400' />{' '}
-              <span>{formatDateString(createdAt)}</span>
-            </p>
+            <div className='flex items-center gap-2'>
+              <p className='text-subtle-medium md:text-small-regular text-gray-400 flex items-center gap-1'>
+                <ClockIcon className='w-4 h-4 text-gray-400' />{' '}
+                <span>{formatDateString(createdAt)}</span>
+              </p>
+              {!isComment && community && (
+                <Link
+                  href={`/communities/${community.id}`}
+                  className='flex items-center gap-2'
+                >
+                  <p className='text-subtle-medium'>
+                    <span className='text-light-1 hover:underline underline-offset-4'>
+                      {community && ` In ${community.name} Community`}
+                    </span>
+                  </p>
+                  <Image
+                    src={community.image}
+                    alt={community.name}
+                    width={22}
+                    height={22}
+                    className='ml-1 rounded-full object-cover'
+                  />
+                </Link>
+              )}
+            </div>
           </div>
         </div>
         <div className='hidden md:flex items-center gap-4'>

@@ -76,6 +76,10 @@ export async function fetchFeelings(pageNumber = 1, pageSize = 20) {
         model: User, // Using the 'User' model to populate the 'author' field
       })
       .populate({
+        path: 'community', // Populate the 'community' field of each feeling
+        model: Community, // Using the 'Community' model to populate the 'community' field
+      })
+      .populate({
         path: 'children', // Populate the 'children' array of each feeling
         populate: {
           path: 'author', // Populate the 'author' field of each child feeling
@@ -305,8 +309,6 @@ export async function unlikeFeeling(feelingId: string, userId: string) {
 
     await session.commitTransaction();
     session.endSession();
-
-    console.log('Feeling after unlike:', feeling);
   } catch (err) {
     console.error('Error while unliking feeling:', err);
     await session.abortTransaction();

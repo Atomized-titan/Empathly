@@ -48,6 +48,7 @@ async function Page({ params }: { params: { id: string } }) {
   const doesAccountFollowAuthUser = authUserInfo.followers.some(
     (followedAccount: { id: string }) => followedAccount.id === userInfo.id
   );
+
   return (
     <>
       <section>

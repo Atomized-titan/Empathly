@@ -1,13 +1,13 @@
 import {
+  ArrowPathRoundedSquareIcon,
+  ChatBubbleBottomCenterIcon,
+  HeartIcon,
   HomeIcon,
   MagnifyingGlassIcon,
-  HeartIcon,
   PlusIcon,
+  TagIcon,
   UserGroupIcon,
   UserIcon,
-  ChatBubbleBottomCenterIcon,
-  TagIcon,
-  ArrowPathRoundedSquareIcon,
 } from '@heroicons/react/24/outline';
 
 export const sidebarLinks = [
