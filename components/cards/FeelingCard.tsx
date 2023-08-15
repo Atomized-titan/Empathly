@@ -1,5 +1,4 @@
 import {
-  BookmarkIcon,
   ChatBubbleBottomCenterIcon,
   ClockIcon,
   ShareIcon,
@@ -9,6 +8,7 @@ import Link from 'next/link';
 
 import { formatDateString } from '@/lib/utils';
 
+import BookmarkButton from '../buttons/BookmarkButton';
 import FeelingOptions from '../common/FeelingOptions';
 import LikeButton from '../common/LikeButton';
 import { Button } from '../ui/button';
@@ -106,9 +106,10 @@ const FeelingCard = ({
           </div>
         </div>
         <div className='hidden md:flex items-center gap-4'>
-          <Button variant='ghost' size='icon'>
-            <BookmarkIcon className='w-6 h-6 text-light-1' />
-          </Button>
+          <BookmarkButton
+            feelingId={JSON.stringify(id)}
+            userId={JSON.stringify(currentUserObjectId)}
+          />
           <FeelingOptions
             feelingId={JSON.stringify(id)}
             currentUserId={currentUserId}

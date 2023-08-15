@@ -1,9 +1,11 @@
-import { followUser, unfollowUser } from '@/lib/actions/user.action';
 import { PlusIcon } from '@heroicons/react/24/outline';
+import { useHover } from '@uidotdev/usehooks';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
+
+import { followUser, unfollowUser } from '@/lib/actions/user.action';
+
 import { Button } from '../ui/button';
-import { useHover } from '@uidotdev/usehooks';
 
 interface Props {
   accountId: string;

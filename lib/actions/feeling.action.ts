@@ -24,7 +24,7 @@ export async function createFeeling({
   path,
 }: Params) {
   try {
-    await connectToDatabase();
+    connectToDatabase();
 
     const communityIdObject = await Community.findOne(
       { id: communityId },
@@ -58,7 +58,7 @@ export async function createFeeling({
 
 export async function fetchFeelings(pageNumber = 1, pageSize = 20) {
   try {
-    await connectToDatabase();
+    connectToDatabase();
 
     // number of posts to skip depending on which page we're on
     const skipAmount = (pageNumber - 1) * pageSize;
@@ -115,7 +115,7 @@ async function fetchAllChildfeelings(feelingId: string): Promise<any[]> {
 
 export async function deleteFeeling(id: string, path: string): Promise<void> {
   try {
-    await connectToDatabase();
+    connectToDatabase();
 
     // Find the feeling to be deleted (the main feeling)
     const mainFeeling = await Feeling.findById(id).populate('author community');
@@ -172,7 +172,7 @@ export async function deleteFeeling(id: string, path: string): Promise<void> {
 }
 
 export async function fetchFeelingById(feelingId: string) {
-  await connectToDatabase();
+  connectToDatabase();
 
   try {
     const feeling = await Feeling.findById(feelingId)
@@ -220,7 +220,7 @@ export async function addCommentToFeeling(
   userId: string,
   path: string
 ) {
-  await connectToDatabase();
+  connectToDatabase();
 
   try {
     // Find the original feeling by its ID
@@ -255,7 +255,7 @@ export async function addCommentToFeeling(
 
 // Add a like to a feeling
 export async function likeFeeling(feelingId: string, userId: string) {
-  await connectToDatabase();
+  connectToDatabase();
 
   const session = await startSession();
   session.startTransaction();
@@ -289,7 +289,7 @@ export async function likeFeeling(feelingId: string, userId: string) {
 
 // Remove a like from a feeling
 export async function unlikeFeeling(feelingId: string, userId: string) {
-  await connectToDatabase();
+  connectToDatabase();
 
   const session = await startSession();
   session.startTransaction();

@@ -11,7 +11,7 @@ import { Gender } from '../validations/user';
 
 export async function fetchUser(userId: string) {
   try {
-    await connectToDatabase();
+    connectToDatabase();
 
     return await User.findOne({ id: userId })
       .populate({
@@ -49,7 +49,7 @@ export async function updateUser({
   gender,
   path,
 }: UserValidationProps): Promise<void> {
-  await connectToDatabase();
+  connectToDatabase();
   try {
     console.log('Updating user:', userId);
 
@@ -82,7 +82,7 @@ export async function updateUser({
 
 export async function fetchUserPosts(userId: string) {
   try {
-    await connectToDatabase();
+    connectToDatabase();
 
     // Find all feelings authored by the user with the given userId
     const feelings = await User.findOne({ id: userId }).populate({
@@ -126,7 +126,7 @@ export async function fetchUsers({
   sortBy?: SortOrder;
 }) {
   try {
-    await connectToDatabase();
+    connectToDatabase();
 
     // Calculate the number of users to skip based on the page number and page size.
     const skipAmount = (pageNumber - 1) * pageSize;
@@ -176,7 +176,7 @@ export async function followUser(
   path: string
 ) {
   try {
-    await connectToDatabase();
+    connectToDatabase();
 
     await User.findByIdAndUpdate(userId, {
       $addToSet: { following: targetUserId },
@@ -200,7 +200,7 @@ export async function unfollowUser(
   path: string
 ) {
   try {
-    await connectToDatabase();
+    connectToDatabase();
 
     await User.findByIdAndUpdate(userId, {
       $pull: { following: targetUserId },

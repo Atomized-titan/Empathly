@@ -60,7 +60,7 @@ function ProfileHeader({
         />
       </div>
       <div className='flex items-center justify-between px-4'>
-        <div className='flex items-center gap-3'>
+        <div className='flex-col md:flex-row items-center gap-3'>
           <div className='relative h-24 w-24 object-cover -mt-4'>
             <Image
               src={imgUrl}
@@ -70,16 +70,18 @@ function ProfileHeader({
             />
           </div>
 
-          <div className='flex-1'>
+          <div className='flex-1 mt-4 md:mt-0'>
             <h2 className='text-left text-heading3-bold text-light-1'>
               {name}
             </h2>
-            <div className='flex items-center gap-2'>
+            <div className='block md:flex items-center gap-2'>
               <p className='text-base-medium text-gray-1'>@{username}</p>
               {doesAccountFollowAuthUser ? (
-                <p className='text-subtle-medium text-gray-1 px-2 py-1 bg-dark-4 rounded-lg'>
-                  Follows you
-                </p>
+                <div className='flex items-center mt-3 md:mt-0'>
+                  <p className='text-subtle-medium text-gray-1 px-2 py-1 bg-dark-4 rounded-lg'>
+                    Follows you
+                  </p>
+                </div>
               ) : null}
             </div>
           </div>

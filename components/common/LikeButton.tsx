@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
 import { HeartIcon } from '@heroicons/react/24/outline';
+import React, { useState } from 'react';
+
 import { likeFeeling, unlikeFeeling } from '@/lib/actions/feeling.action';
 
 interface Props {
