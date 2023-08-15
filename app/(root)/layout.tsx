@@ -9,6 +9,7 @@ import LeftSideBar from '@/components/common/LeftSideBar';
 import Providers from '@/components/common/Providers';
 import RightSideBar from '@/components/common/RightSideBar';
 import TopBar from '@/components/common/TopBar';
+import { Toaster } from '@/components/ui/toaster';
 
 const dmSans = DM_Sans({ subsets: ['latin'] });
 
@@ -37,6 +38,7 @@ export default function RootLayout({
               <RightSideBar />
             </main>
             <BottomBar />
+            <Toaster />
           </Providers>
         </body>
       </html>

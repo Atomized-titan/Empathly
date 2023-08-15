@@ -27,6 +27,7 @@ import {
 
 import { Button } from '../ui/button';
 import { Textarea } from '../ui/textarea';
+import { useToast } from '../ui/use-toast';
 
 const PostFeeling = ({ userId }: { userId: string }) => {
   const [files, setFiles] = useState<File[]>([]);
@@ -36,6 +37,8 @@ const PostFeeling = ({ userId }: { userId: string }) => {
   const [loading, setLoading] = useState(false);
 
   const { organization } = useOrganization();
+
+  const { toast } = useToast();
 
   // react-spring animation
   const springProps = useSpring({
@@ -99,7 +102,9 @@ const PostFeeling = ({ userId }: { userId: string }) => {
       communityId: organization ? organization.id : null,
       path: pathname,
     });
-
+    toast({
+      description: 'Feeling posted!',
+    });
     setLoading(false);
     router.push('/');
   };
