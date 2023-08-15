@@ -11,18 +11,17 @@ async function Page() {
   if (!user) return null; // to avoid typescript warnings
 
   const userInfo = await fetchUser(user.id);
-
   if (userInfo?.onboarded) redirect('/');
 
   const userData = {
     id: user.id,
     objectId: userInfo?._id,
-    username: userInfo?.username || user.username,
-    name: userInfo?.name || user.firstName || '',
-    bio: userInfo?.bio || '',
-    image: userInfo?.image || user.imageUrl,
-    gender: userInfo?.gender || user.gender,
-    termsAccepted: userInfo?.termsAccepted || false,
+    username: userInfo ? userInfo?.username : user.username,
+    name: userInfo ? userInfo?.name : user.firstName ?? '',
+    bio: userInfo ? userInfo?.bio : '',
+    image: userInfo ? userInfo?.image : user.imageUrl,
+    gender: userInfo ? userInfo?.gender : '',
+    termsAccepted: userInfo ? userInfo?.termsAccepted : false,
   };
 
   return (
