@@ -71,8 +71,14 @@ const LikeButton = ({ id, currentUserObjectId, likes }: Props) => {
             isLiked ? 'fill-primary text-primary !font-medium' : 'text-light-1'
           }`}
         />
-        <span className={`${isLiked ? 'text-primary' : ''}`}>
-          {likeCount} Like{likeCount !== 1 ? 's' : ''}
+        <span
+          className={`${isLiked ? 'text-primary' : ''} flex items-center gap-1`}
+        >
+          <span>{likeCount} </span>
+          <span className='hidden md:flex'>
+            {' '}
+            Like{likeCount !== 1 ? 's' : ''}
+          </span>
         </span>
       </div>
     </button>

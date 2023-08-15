@@ -83,7 +83,11 @@ const BookmarkButton = ({ feelingId, userId }: Props) => {
               : 'text-light-1'
           }`}
         />
-        <span className={`${isBookmarked ? 'text-primary' : ''}`}>
+        <span
+          className={`${
+            isBookmarked ? 'text-primary' : 'text-light-1'
+          } hidden md:inline`}
+        >
           {isBookmarked ? 'Bookmarked' : 'Bookmark'}
         </span>
       </div>

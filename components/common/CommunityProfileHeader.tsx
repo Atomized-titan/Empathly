@@ -45,7 +45,7 @@ function CommunityProfileHeader({
           />
         </div>
         <div className='flex items-center justify-between px-4'>
-          <div className='flex items-center gap-3'>
+          <div className='flex-col md:flex-row items-center gap-3'>
             <div className='relative h-24 w-24 object-cover -mt-4'>
               <Image
                 src={imgUrl}
@@ -55,7 +55,7 @@ function CommunityProfileHeader({
               />
             </div>
 
-            <div className='flex-1'>
+            <div className='flex-1 mt-4 md:mt-0'>
               <div className='flex items-center gap-2'>
                 <h2 className='text-left text-heading3-bold text-light-1'>
                   {' '}

@@ -6,7 +6,7 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { formatDateString } from '@/lib/utils';
+import { formatDateStringForMobile } from '@/lib/utils';
 
 import BookmarkButton from '../buttons/BookmarkButton';
 import FeelingOptions from '../common/FeelingOptions';
@@ -78,15 +78,15 @@ const FeelingCard = ({
                 </h3>
               </Button>
             </Link>
-            <div className='flex items-center gap-2'>
+            <div className='md:flex-row items-center gap-2 flex-col'>
               <p className='text-subtle-medium md:text-small-regular text-gray-400 flex items-center gap-1'>
                 <ClockIcon className='w-4 h-4 text-gray-400' />{' '}
-                <span>{formatDateString(createdAt)}</span>
+                <span>{formatDateStringForMobile(createdAt)}</span>
               </p>
               {!isComment && community && (
                 <Link
                   href={`/communities/${community.id}`}
-                  className='flex items-center gap-2'
+                  className='flex items-center gap-2 mt-2 md:mt-0'
                 >
                   <p className='text-subtle-medium'>
                     <span className='text-light-1 hover:underline under'>
@@ -136,20 +136,30 @@ const FeelingCard = ({
         ) : null}
       </div>
 
-      <div className='flex items-center gap-4 text-subtle-medium text-light-1'>
+      <div className='flex items-center gap-4 text-subtle-medium text-light-1 justify-between md:justify-normal'>
         <LikeButton
           id={JSON.stringify(id)}
           currentUserObjectId={JSON.stringify(currentUserObjectId)}
           likes={likes}
         />
         <Link href={`/feeling/${id}`}>
-          <div className='flex items-center gap-1'>
+          <div className='flex items-center gap-2'>
             <ChatBubbleBottomCenterIcon className='w-5 h-5 text-light-1' />{' '}
-            <span>{comments.length} Comments</span>
+            <p className='flex items-center gap-1'>
+              <span>{comments.length}</span>
+              <span className='hidden md:block'>Comments</span>
+            </p>
           </div>
         </Link>
-        <div className='flex items-center gap-1'>
-          <ShareIcon className='w-5 h-5 text-light-1' /> Share
+        <div className='block md:hidden'>
+          <BookmarkButton
+            feelingId={JSON.stringify(id)}
+            userId={JSON.stringify(currentUserObjectId)}
+          />
+        </div>
+        <div className='flex items-center gap-2'>
+          <ShareIcon className='w-4 h-4 text-light-1' />
+          <span className='hidden md:block'>Share</span>
         </div>
       </div>
 
