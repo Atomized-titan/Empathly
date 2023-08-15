@@ -89,7 +89,7 @@ const FeelingCard = ({
                   className='flex items-center gap-2'
                 >
                   <p className='text-subtle-medium'>
-                    <span className='text-light-1 hover:underline underline-offset-4'>
+                    <span className='text-light-1 hover:underline under'>
                       {community && ` In ${community.name} Community`}
                     </span>
                   </p>

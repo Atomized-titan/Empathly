@@ -77,8 +77,7 @@ function CommunityProfileHeader({
                 <p className='text-light-2 max-sm:hidden'>Edit</p>
               </Button>
             </Link>
-          ) : // <Button>Join</Button>
-          null}
+          ) : null}
         </div>
         {/* BIO SECTION */}
         <p className='mt-4 max-w-lg text-base-regular text-light-2 px-4'>

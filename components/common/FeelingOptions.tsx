@@ -12,7 +12,6 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-import { Button } from '../ui/button';
 interface Props {
   feelingId: string;
   currentUserId: string;
@@ -35,9 +34,7 @@ const FeelingOptions = ({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <Button variant='ghost' size='icon'>
-          <EllipsisVerticalIcon className='w-6 h-6 text-light-1' />
-        </Button>
+        <EllipsisVerticalIcon className='w-6 h-6 text-light-1' />
       </DropdownMenuTrigger>
       <DropdownMenuContent className='bg-dark-3 border-dark-4 text-light-2'>
         <DropdownMenuItem className=' focus:bg-dark-4 focus:text-light-1'>
