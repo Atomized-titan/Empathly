@@ -1,4 +1,5 @@
 import { currentUser } from '@clerk/nextjs';
+import { Metadata } from 'next';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import React from 'react';
@@ -7,6 +8,11 @@ import { fetchBookmarks } from '@/lib/actions/bookmark.action';
 import { fetchUser } from '@/lib/actions/user.action';
 
 import FeelingCard from '@/components/cards/FeelingCard';
+
+export const metadata: Metadata = {
+  title: 'Bookmarks / Empathly',
+  description: 'Bookmarks',
+};
 
 const Page = async () => {
   const user = await currentUser();
@@ -19,7 +25,6 @@ const Page = async () => {
 
   const bookmarkedFeelings = await fetchBookmarks(userInfo._id);
 
-  console.log({ bookmarkedFeelings });
   return (
     <section className='flex flex-col gap-6'>
       <div>
