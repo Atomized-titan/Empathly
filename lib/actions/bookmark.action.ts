@@ -11,7 +11,7 @@ export async function bookmarkFeeling(
   feelingId: string
 ): Promise<void> {
   try {
-    connectToDatabase();
+    await connectToDatabase();
 
     // Check if the bookmark already exists
     const existingBookmark = await Bookmark.findOne({
@@ -37,7 +37,7 @@ export async function unbookmarkFeeling(
   feelingId: string
 ): Promise<void> {
   try {
-    connectToDatabase();
+    await connectToDatabase();
 
     // Remove the bookmark
     await Bookmark.findOneAndDelete({ user: userId, feeling: feelingId });
@@ -48,13 +48,14 @@ export async function unbookmarkFeeling(
 
 export async function fetchBookmarks(userId: string): Promise<any[]> {
   try {
-    connectToDatabase();
+    await connectToDatabase();
 
     const bookmarks = await Bookmark.find({ user: userId });
 
     // Extract the feeling IDs from the bookmarks
     const feelingIds = bookmarks.map((bookmark) => bookmark.feeling);
 
+    console.time('fetch bookmark feelings');
     // Fetch the feelings using the extracted IDs
     const bookmarkedFeelings = await Feeling.find({ _id: { $in: feelingIds } })
       .populate({
@@ -76,6 +77,8 @@ export async function fetchBookmarks(userId: string): Promise<any[]> {
         },
       });
 
+    console.timeEnd('fetch bookmark feelings');
+
     return bookmarkedFeelings;
   } catch (error: any) {
     throw new Error(`Failed to fetch bookmarks: ${error.message}`);
@@ -88,7 +91,7 @@ export async function hasBookmarkedFeeling(
   feelingId: string
 ): Promise<any> {
   try {
-    connectToDatabase();
+    await connectToDatabase();
 
     const existingBookmark = await Bookmark.findOne({
       user: userId,

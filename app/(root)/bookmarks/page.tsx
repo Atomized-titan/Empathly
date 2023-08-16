@@ -1,8 +1,6 @@
 import { currentUser } from '@clerk/nextjs';
 import { Metadata } from 'next';
-import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import React from 'react';
 
 import { fetchBookmarks } from '@/lib/actions/bookmark.action';
 import { fetchUser } from '@/lib/actions/user.action';
@@ -15,22 +13,23 @@ export const metadata: Metadata = {
 };
 
 const Page = async () => {
+  console.time('current user');
   const user = await currentUser();
   if (!user) return null;
+  console.timeEnd('current user');
 
+  console.time('fetch user');
   const userInfo = await fetchUser(user.id);
   if (!userInfo?.onboarded) redirect('/onboarding');
+  console.timeEnd('fetch user');
 
-  revalidatePath('/bookmarks');
-
+  console.time('fetch bookmarks');
   const bookmarkedFeelings = await fetchBookmarks(userInfo._id);
+  console.timeEnd('fetch bookmarks');
 
   return (
-    <section className='flex flex-col gap-6'>
-      <div>
-        <h1 className='head-text'>Bookmarks</h1>
-        <p className='text-small-medium text-gray-1'>@{user?.username}</p>
-      </div>
+    <>
+      <p className='text-small-medium text-gray-1 -mt-6'>@{user?.username}</p>
       <div className='flex flex-col gap-6'>
         {bookmarkedFeelings
           .sort((a, b) => b.createdAt - a.createdAt)
@@ -52,7 +51,7 @@ const Page = async () => {
             />
           ))}
       </div>
-    </section>
+    </>
   );
 };
 
