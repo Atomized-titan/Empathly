@@ -49,7 +49,9 @@ const LeftSideBar = () => {
               <div className='min-w-[24px]'>
                 <link.icon className='w-6 h-6' />
               </div>
-              {isSidebarOpen && <span className='flex-1'>{link.label}</span>}
+              {isSidebarOpen && (
+                <span className='flex-1 whitespace-nowrap'>{link.label}</span>
+              )}
             </Link>
           );
         })}

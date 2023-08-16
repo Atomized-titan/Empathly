@@ -1,7 +1,7 @@
 'use client';
 
 import { HeartIcon } from '@heroicons/react/24/outline';
-import React, { useState } from 'react';
+import React, { experimental_useOptimistic, useState } from 'react';
 
 import { likeFeeling, unlikeFeeling } from '@/lib/actions/feeling.action';
 
@@ -18,22 +18,25 @@ const LikeButton = ({ id, currentUserObjectId, likes }: Props) => {
     likes.includes(parsedCurrentUserObjectId)
   );
   const [likeCount, setLikeCount] = useState(likes.length);
+  const [optimisticLikesCount, setOptimisticLikesCount] =
+    experimental_useOptimistic(likeCount);
 
   const handleLike = async () => {
     try {
       // Optimistically update the UI
       setIsLiked(true);
-      setLikeCount(likeCount + 1);
 
+      setOptimisticLikesCount((p) => p + 1);
       // Call the API to like the feeling
       await likeFeeling(parsedId, parsedCurrentUserObjectId);
+      setLikeCount((p) => p + 1);
 
       // Server confirmation will be handled in the catch block if there's an error
     } catch (error) {
       console.error('Error liking feeling:', error);
       // Handle error (display a message, etc.)
       setIsLiked(false); // Revert the UI state
-      setLikeCount(likeCount); // Revert the like count
+      setLikeCount((p) => p); // Revert the like count
     }
   };
 
@@ -74,10 +77,10 @@ const LikeButton = ({ id, currentUserObjectId, likes }: Props) => {
         <span
           className={`${isLiked ? 'text-primary' : ''} flex items-center gap-1`}
         >
-          <span>{likeCount} </span>
+          <span>{optimisticLikesCount} </span>
           <span className='hidden md:flex'>
             {' '}
-            Like{likeCount !== 1 ? 's' : ''}
+            Like{optimisticLikesCount !== 1 ? 's' : ''}
           </span>
         </span>
       </div>

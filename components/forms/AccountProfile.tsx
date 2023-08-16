@@ -5,14 +5,14 @@ import { ArrowPathIcon } from '@heroicons/react/24/solid';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
-import { ChangeEvent, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { animated, config, useSpring } from 'react-spring';
 import * as z from 'zod';
 
 import { updateUser } from '@/lib/actions/user.action';
 import { useUploadThing } from '@/lib/uploadthing.';
-import { isBase64Image } from '@/lib/utils';
+import { handleImage, isBase64Image } from '@/lib/utils';
 import { Gender, UserValidation } from '@/lib/validations/user';
 
 import {
@@ -39,6 +39,7 @@ import {
   SelectValue,
 } from '../ui/select';
 import { Textarea } from '../ui/textarea';
+import { useToast } from '../ui/use-toast';
 
 interface HeadingProps {
   user: {
@@ -60,6 +61,8 @@ const AccountProfile = ({ user, btnTitle }: HeadingProps) => {
   const pathname = usePathname();
   const [loading, setLoading] = useState(false);
 
+  const { toast } = useToast();
+
   // react-spring animation
   const springProps = useSpring({
     from: { opacity: 0, transform: 'translateY(20px)' },
@@ -79,31 +82,6 @@ const AccountProfile = ({ user, btnTitle }: HeadingProps) => {
       termsAccepted: user?.termsAccepted || false,
     },
   });
-
-  const handleImage = (
-    e: ChangeEvent<HTMLInputElement>,
-    fieldChange: (value: string) => void
-  ) => {
-    e.preventDefault();
-
-    const fileReader = new FileReader();
-
-    const handleFileLoad = async (event: ProgressEvent<FileReader>) => {
-      const imageDataUrl = event.target?.result?.toString() || '';
-      fieldChange(imageDataUrl);
-    };
-
-    if (e.target.files && e.target.files.length > 0) {
-      const file = e.target.files[0];
-      setFiles(Array.from(e.target.files));
-
-      if (!file.type.includes('image')) return;
-
-      fileReader.onload = handleFileLoad;
-
-      fileReader.readAsDataURL(file);
-    }
-  };
 
   const onSubmit = async (values: z.infer<typeof UserValidation>) => {
     setLoading(true);
@@ -175,7 +153,9 @@ const AccountProfile = ({ user, btnTitle }: HeadingProps) => {
                   accept='image/*'
                   placeholder='Add profile photo'
                   className='account-form_image-input'
-                  onChange={(e) => handleImage(e, field.onChange)}
+                  onChange={(e) =>
+                    handleImage(e, field.onChange, toast, setFiles)
+                  }
                 />
               </FormControl>
             </FormItem>

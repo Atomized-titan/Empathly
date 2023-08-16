@@ -6,14 +6,14 @@ import { ArrowPathIcon } from '@heroicons/react/24/solid';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
-import { ChangeEvent, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { animated, config, useSpring } from 'react-spring';
 import * as z from 'zod';
 
 import { createFeeling } from '@/lib/actions/feeling.action';
 import { useUploadThing } from '@/lib/uploadthing.';
-import { isBase64Image } from '@/lib/utils';
+import { handleImage, isBase64Image } from '@/lib/utils';
 import { FeelingValidation } from '@/lib/validations/feeling';
 
 import {
@@ -56,31 +56,6 @@ const PostFeeling = ({ userId }: { userId: string }) => {
       image: '',
     },
   });
-
-  const handleImageUpload = (
-    e: ChangeEvent<HTMLInputElement>,
-    fieldChange: (value: string) => void
-  ) => {
-    e.preventDefault();
-
-    const fileReader = new FileReader();
-
-    const handleFileLoad = async (event: ProgressEvent<FileReader>) => {
-      const imageDataUrl = event.target?.result?.toString() || '';
-      fieldChange(imageDataUrl);
-    };
-
-    if (e.target.files && e.target.files.length > 0) {
-      const file = e.target.files[0];
-      setFiles(Array.from(e.target.files));
-
-      if (!file.type.includes('image')) return;
-
-      fileReader.onload = handleFileLoad;
-
-      fileReader.readAsDataURL(file);
-    }
-  };
 
   const onSubmit = async (values: z.infer<typeof FeelingValidation>) => {
     setLoading(true);
@@ -125,7 +100,7 @@ const PostFeeling = ({ userId }: { userId: string }) => {
                 Content
               </FormLabel>
               <FormControl className='no-focus border border-dark-4 bg-dark-3 text-light-1'>
-                <Textarea rows={10} {...field} className='!text-[18px]' />
+                <Textarea rows={5} {...field} className='!text-[18px]' />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -154,10 +129,12 @@ const PostFeeling = ({ userId }: { userId: string }) => {
                     id='image-upload'
                     accept='image/*'
                     className='sr-only'
-                    onChange={(e) => handleImageUpload(e, field.onChange)}
+                    onChange={(e) =>
+                      handleImage(e, field.onChange, toast, setFiles)
+                    }
                   />
                   {field.value && (
-                    <div className='mt-2'>
+                    <div className='my-2 flex items-center w-full justify-center'>
                       <Image
                         src={field.value}
                         alt='uploaded_image'
