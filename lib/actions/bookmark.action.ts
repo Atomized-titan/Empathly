@@ -66,6 +66,14 @@ export async function fetchBookmarks(userId: string): Promise<any[]> {
         path: 'author',
         model: User,
         select: 'name image id',
+      })
+      .populate({
+        path: 'children', // Populate the 'children' array of each feeling
+        populate: {
+          path: 'author', // Populate the 'author' field of each child feeling
+          model: User, // Using the 'User' model to populate the 'author' field
+          select: '_id name parentId image', // Include only specific fields from the 'User' document
+        },
       });
 
     return bookmarkedFeelings;

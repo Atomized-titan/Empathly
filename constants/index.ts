@@ -1,5 +1,6 @@
 import {
   ArrowPathRoundedSquareIcon,
+  BookmarkIcon,
   ChatBubbleBottomCenterIcon,
   HeartIcon,
   HomeIcon,
@@ -30,6 +31,11 @@ export const sidebarLinks = [
     icon: PlusIcon,
     route: '/create-feeling',
     label: 'Create Feeling',
+  },
+  {
+    icon: BookmarkIcon,
+    route: '/bookmarks',
+    label: 'Bookmarks',
   },
   {
     icon: UserGroupIcon,

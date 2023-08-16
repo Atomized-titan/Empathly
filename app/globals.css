@@ -66,8 +66,14 @@
     @apply fixed bottom-0 z-10 w-full rounded-t-3xl bg-glassmorphism p-4 backdrop-blur-lg xs:px-7 md:hidden;
   }
 
+  /* Add horizontal scrolling to the container */
   .bottombar_container {
-    @apply flex items-center justify-between gap-3 xs:gap-5;
+    @apply flex items-center gap-3 xs:gap-5 overflow-x-scroll w-full;
+  }
+
+  /* Style the scrollable area */
+  .bottombar_scrollable {
+    @apply flex gap-4 justify-between w-full; /* Adjust the gap as needed */
   }
 
   .bottombar_link {

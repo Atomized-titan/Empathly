@@ -10,7 +10,7 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 
-import FollowButton from './FollowButton';
+import FollowButton from '../buttons/FollowButton';
 import { Button } from '../ui/button';
 
 interface Props {

@@ -9,8 +9,8 @@ import Link from 'next/link';
 import { formatDateStringForMobile } from '@/lib/utils';
 
 import BookmarkButton from '../buttons/BookmarkButton';
+import LikeButton from '../buttons/LikeButton';
 import FeelingOptions from '../common/FeelingOptions';
-import LikeButton from '../common/LikeButton';
 import { Button } from '../ui/button';
 
 interface Props {
@@ -38,6 +38,7 @@ interface Props {
   }[];
   isComment?: boolean;
   likes: string[]; // Array of user IDs who have liked the feeling
+  isBookMarkView?: boolean;
 }
 
 const FeelingCard = ({
@@ -53,6 +54,7 @@ const FeelingCard = ({
   likes,
   comments,
   isComment,
+  isBookMarkView,
 }: Props) => {
   return (
     <article
@@ -106,10 +108,12 @@ const FeelingCard = ({
           </div>
         </div>
         <div className='hidden md:flex items-center gap-4'>
-          <BookmarkButton
-            feelingId={JSON.stringify(id)}
-            userId={JSON.stringify(currentUserObjectId)}
-          />
+          {isBookMarkView ? null : (
+            <BookmarkButton
+              feelingId={JSON.stringify(id)}
+              userId={JSON.stringify(currentUserObjectId)}
+            />
+          )}
           <FeelingOptions
             feelingId={JSON.stringify(id)}
             currentUserId={currentUserId}
@@ -152,10 +156,12 @@ const FeelingCard = ({
           </div>
         </Link>
         <div className='block md:hidden'>
-          <BookmarkButton
-            feelingId={JSON.stringify(id)}
-            userId={JSON.stringify(currentUserObjectId)}
-          />
+          {isBookMarkView ? null : (
+            <BookmarkButton
+              feelingId={JSON.stringify(id)}
+              userId={JSON.stringify(currentUserObjectId)}
+            />
+          )}
         </div>
         <div className='flex items-center gap-2'>
           <ShareIcon className='w-4 h-4 text-light-1' />
