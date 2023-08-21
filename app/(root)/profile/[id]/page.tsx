@@ -35,7 +35,7 @@ async function Page({ params }: { params: { id: string } }) {
 
   const authUserInfo = await fetchUser(user.id);
 
-  if (!userInfo?.onboarded) redirect('/onboarding');
+  if (!authUserInfo?.onboarded) redirect('/onboarding');
 
   const isFollowing = userInfo.followers.some(
     (follower: { id: string }) => follower.id === user.id

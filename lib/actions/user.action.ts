@@ -21,11 +21,23 @@ export async function fetchUser(userId: string) {
       .populate({
         path: 'followers',
         model: User,
+        select: 'name image id _id',
       })
       .populate({
         path: 'following',
         model: User,
+        select: 'name image id _id',
       });
+  } catch (error: any) {
+    throw new Error(`Failed to fetch user: ${error.message}`);
+  }
+}
+
+export async function fetchUserOnly(userId: string) {
+  try {
+    await connectToDatabase();
+
+    return await User.findOne({ id: userId });
   } catch (error: any) {
     throw new Error(`Failed to fetch user: ${error.message}`);
   }

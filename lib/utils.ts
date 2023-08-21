@@ -29,6 +29,15 @@ export function formatDateString(dateString: string) {
   return `${time} - ${formattedDate}`;
 }
 
+export function toPusherKey(key: string) {
+  return key.replace(/:/g, '__');
+}
+
+export function chatHrefConstructor(id1: string, id2: string) {
+  const sortedIds = [id1, id2].sort();
+  return `${sortedIds[0]}--${sortedIds[1]}`;
+}
+
 export function formatDateStringForMobile(dateString: string) {
   const date = new Date(dateString);
   const now = new Date();
@@ -99,3 +108,28 @@ export const handleImage = (
     e.target.value = ''; // Reset the input element
   }
 };
+
+export function formatUnixTimestamp(unixTimestamp: number): string {
+  const date = new Date(unixTimestamp);
+  const options: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    timeZoneName: 'short',
+  };
+  return date.toLocaleString(undefined, options);
+}
+
+export function formatUnixTimestampForBubble(unixTimestamp: number): string {
+  const date = new Date(unixTimestamp);
+  const options: Intl.DateTimeFormatOptions = {
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  };
+  return date.toLocaleString(undefined, options);
+}

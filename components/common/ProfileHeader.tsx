@@ -86,21 +86,28 @@ function ProfileHeader({
             </div>
           </div>
         </div>
-        {accountId === authUserId && type !== 'Community' ? (
-          <Link href='/profile/edit'>
-            <Button className='flex cursor-pointer gap-3 items-center rounded-lg bg-dark-3 px-4 py-2'>
-              <PencilIcon className='w-4 h-4 text-light-1' />
-              <p className='text-light-2 max-sm:hidden'>Edit</p>
+        <div className='hidden md:flex items-center gap-4'>
+          <Link href={`/messages/${[accountId, authUserId].sort().join('--')}`}>
+            <Button className='flex cursor-pointer gap-3 items-center rounded-lg bg-dark-4 px-4 py-2'>
+              <EnvelopeIcon className='w-4 h-4 text-light-1' />
             </Button>
           </Link>
-        ) : (
-          <FollowButton
-            accountId={JSON.stringify(accountObjectId)}
-            authUserId={JSON.stringify(authUserObjectId)}
-            followersCount={followersCount}
-            isFollowing={isFollowing}
-          />
-        )}
+          {accountId === authUserId && type !== 'Community' ? (
+            <Link href='/profile/edit'>
+              <Button className='flex cursor-pointer gap-3 items-center rounded-lg bg-dark-4 px-4 py-2'>
+                <PencilIcon className='w-4 h-4 text-light-1' />
+                <p className='text-light-2 max-sm:hidden'>Edit</p>
+              </Button>
+            </Link>
+          ) : (
+            <FollowButton
+              accountId={JSON.stringify(accountObjectId)}
+              authUserId={JSON.stringify(authUserObjectId)}
+              followersCount={followersCount}
+              isFollowing={isFollowing}
+            />
+          )}
+        </div>
       </div>
       {/* BIO SECTION */}
       <p className='mt-4 max-w-lg text-base-regular text-light-2 px-4'>{bio}</p>
