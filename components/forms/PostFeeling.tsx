@@ -12,7 +12,7 @@ import { animated, config, useSpring } from 'react-spring';
 import * as z from 'zod';
 
 import { createFeeling } from '@/lib/actions/feeling.action';
-import { useUploadThing } from '@/lib/uploadthing.';
+import { useUploadThing } from '@/lib/uploadthing';
 import { handleImage, isBase64Image } from '@/lib/utils';
 import { FeelingValidation } from '@/lib/validations/feeling';
 

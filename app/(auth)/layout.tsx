@@ -1,16 +1,16 @@
-import { ClerkProvider } from "@clerk/nextjs";
-import { Metadata } from "next";
-import { DM_Sans } from "next/font/google";
+import { ClerkProvider } from '@clerk/nextjs';
+import { Metadata } from 'next';
+import { DM_Sans } from 'next/font/google';
 
-import "../globals.css";
+import '../globals.css';
 
 export const metadata: Metadata = {
-  title: "Empathly",
+  title: 'Empathly',
   description:
-    "Creating a space for open conversations on mental health. Join us in building a supportive community",
+    'Creating a space for open conversations on mental health. Join us in building a supportive community',
 };
 
-const dmSans = DM_Sans({ subsets: ["latin"] });
+const dmSans = DM_Sans({ subsets: ['latin'] });
 
 export default function RootLayout({
   children,
@@ -19,7 +19,10 @@ export default function RootLayout({
 }) {
   return (
     <ClerkProvider>
-      <html lang="en" className={`${dmSans.className} bg-dark-1`}>
+      <html
+        lang='en'
+        className={`${dmSans.className} bg-dark-1 main-container`}
+      >
         <body>{children}</body>
       </html>
     </ClerkProvider>
